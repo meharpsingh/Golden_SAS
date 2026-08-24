@@ -1,0 +1,15 @@
+data fitstat;
+n = 75;
+k = 4;
+sse = 1532.08446;
+aic1 = log(sse/n) + 2*k/n;
+aic2 = (log(2*3.14159)+1) + log(sse/n) + 2*k/n;
+naic = n*(aic2);
+lnl = -(n/2)*(log(2*3.14159)+1) -(n/2)*log(sse/n);
+aic_sas = -2*lnl + 2*k;
+sbc_sas = -2*lnl + log(n)*k;
+run;
+proc print data=fitstat;
+var aic1 aic2 naic aic_sas sbc_sas;
+title 'fit statistics in proc autoreg';
+run;

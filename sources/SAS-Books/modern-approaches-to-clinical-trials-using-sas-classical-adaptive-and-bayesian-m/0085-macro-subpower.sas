@@ -1,0 +1,18 @@
+%macro subpower(f,alpha_a, beta_a, es_ratio, alpha_g);
+data result;
+f=&f;
+alpha_a=&alpha_a;
+beta_a=&beta_a;
+es_ratio=&es_ratio;
+za=quantile('Normal', 1-&alpha_a);
+zb=quantile('Normal', 1-&beta_a);
+zag=quantile('Normal', 1-&alpha_g);
+d=sqrt(&f)*es_ratio*(za+zb)-zag;
+sub_power=CDF('Normal', d);
+label es_ratio="effect size ratio";
+label f="sample size ratio";
+run;
+proc print noobs label;
+var f alpha_a beta_a es_ratio sub_power;
+run;
+%mend subpower;

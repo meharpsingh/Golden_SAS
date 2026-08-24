@@ -1,0 +1,14 @@
+data distance;
+input gender$ prior_expr$ self_eval distance @@;
+cards;
+F no 2  1.9   F no  2  2.1  F yes 8  3.8  F yes 4 3.0  M no  5 4.2
+F yes 10 8.2   F no  3  3.1  F no  4  2.4  F no  5 4.6  M yes 6 8.7
+F no  6  4.7   M yes 7  4.2  F no  7  4.4  F yes 3 3.1  M yes 10 6.4
+F yes 4  3.2   F no  6  5.1  M no  10 5.9  F no  6 5.0  M yes 3 3.6
+F no  7  4.4   M yes 10 11.2 F yes 3  3.0  M yes 7 4.3
+;
+/*fitting gamma regression model*/
+proc genmod;
+ class gender(ref="F") prior_expr(ref="no");
+  model distance = gender prior_expr self_eval / dist=gamma link=log;
+run;

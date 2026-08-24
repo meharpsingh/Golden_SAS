@@ -1,0 +1,13 @@
+DATA eight;
+DO i = 1 to 10;
+   X = RANNOR(28374);                        * X ~ N(0, 1);
+   Y = 5 + RANNOR(39587209);                 * Y ~ N(5, 1);
+   W = SQRT(6) * RANNOR(659363);             * W ~ N(0, 6);
+   U = 8 + SQRT(10) * RANNOR(494703);        * U ~ N(8, 10);
+   OUTPUT;
+END;
+RUN;
+PROC PRINT DATA=eight NOOBS N;
+TITLE 'Objective 15.8';
+RUN;
+QUIT;

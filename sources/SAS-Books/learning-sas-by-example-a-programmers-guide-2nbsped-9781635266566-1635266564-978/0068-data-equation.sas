@@ -1,0 +1,10 @@
+  data Equation;
+do X = -10 to 10 by .01;
+Y = 2*X**3 - 5*X**2 + 15*X -8;
+output;
+end;
+  run;
+  title "Plot of Y = 2*X**3 - 5*X**2 + 15*X -8";
+  proc sgplot;
+series x=X y=Y;
+  run;

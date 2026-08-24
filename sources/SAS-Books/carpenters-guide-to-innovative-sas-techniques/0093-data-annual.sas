@@ -1,0 +1,12 @@
+data annual(keep=year q: totsales);
+   set sashelp.retail(keep=sales date year);
+   by year;
+   retain q1-q4 .;
+   array annual {4} q1-q4;
+   if first.year then call missing(of annual{*});
+   annual{qtr(date)}=sales;
+   if last.year then do;
+      totsales=sum(of q:);
+      output annual;
+   end;
+   run;

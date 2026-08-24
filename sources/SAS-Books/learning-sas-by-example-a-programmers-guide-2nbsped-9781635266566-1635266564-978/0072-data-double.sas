@@ -1,0 +1,13 @@
+  data Double;
+Interest = .0375;
+Total = 100;
+do while (Total le 200);
+Year + 1;
+Total = Total + Interest*Total;
+output;
+end;
+format Total dollar10.2;
+  run;
+  proc print data=double noobs;
+title "Listing of Double";
+  run;

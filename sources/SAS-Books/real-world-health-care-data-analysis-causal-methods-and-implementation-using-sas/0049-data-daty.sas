@@ -1,0 +1,14 @@
+data daty;
+      set dat;
+      Y=BPIPain_LOCF-BPIPain_B;
+      if Y>.;  run;
+* build model on control group i.e. non-opioid;
+proc genmod data=daty;
+      where cohort=0;
+      class &pscat;
+      model Y=&pscat &pscnt;
+      store out=ymdl;   run;
+* prognostic score is the prediction from the previous model on all data;
+proc plm restore=ymdl;
+      score data=daty out=dscore pred=progscore;
+run;

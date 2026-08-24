@@ -1,0 +1,11 @@
+data lmtest;                           * create dataset;
+q = 1;                                 * number lag resids;
+t = 90;                                * sample size;
+r2 = 0.3066;                           * r-squared;
+chisq = t*r2;                          * test statistic;
+pval = 1 - probchi(chisq,q);           * p-value;
+chisq_95 = cinv(.95,q);                * 0.95 percentile;
+run;
+proc print data=lmtest;                * print;
+title 'LM test for serially correlated errors';
+run;

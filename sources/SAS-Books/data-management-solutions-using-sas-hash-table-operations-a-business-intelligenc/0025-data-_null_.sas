@@ -1,0 +1,12 @@
+data _null_ ;
+dcl hash H () ;
+H.definekey ("Player_ID") ;
+H.definedata ("Player_ID", "Position_code") ;
+H.definedone() ;
+do until (lr) ;
+set bizarro.Player_candidates end = lr ;
+rc = H.ADD() ;
+end ;
+H.output (dataset: "Players") ; *Check content of H;
+stop ;
+run ;

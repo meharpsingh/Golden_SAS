@@ -1,0 +1,18 @@
+  DATA WEIGHT;
+  INPUT WBEFORE WAFTER;
+  * Calculate WLOSS in the DATA step *;
+  WLOSS=WBEFORE-WAFTER;
+  DATALINES;
+  200 185
+  175 154
+  188 176
+  198 193
+  197 198
+  310 275
+  245 224
+  202 188
+  ;
+  PROC UNIVARIATE;
+     VAR WLOSS;
+     TITLE "Paired comparison using PROC UNIVARIATE";
+  RUN;

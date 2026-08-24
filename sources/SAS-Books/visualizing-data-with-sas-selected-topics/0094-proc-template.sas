@@ -1,0 +1,11 @@
+proc template;
+source styles.htmlblue / expand file='style.tmp';
+run;
+data _null_;
+infile 'style.tmp' pad;
+input line $char80.;
+file print;
+if index(lowcase(line), ' graphdata1 ') then y + 1;
+if y then put line $char80.;
+if y and index(line, ';') then stop;
+run;

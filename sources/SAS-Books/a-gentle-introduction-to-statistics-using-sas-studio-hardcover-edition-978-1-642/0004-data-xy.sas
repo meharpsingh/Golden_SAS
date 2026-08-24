@@ -1,0 +1,11 @@
+data XY;
+   call streaminit(13579);
+   do i = 1 to 9;
+      x = round(rand('uniform')*100);
+      y = round(.75*x + rand('uniform')*10);
+      output;
+   end;
+   x = 95;
+   y = 5;
+   output;
+run;

@@ -1,0 +1,9 @@
+DATA compsep;
+  INPUT x y;
+  DATALINES;
+1 0
+2 0
+3 0
+4 1
+5 1
+;

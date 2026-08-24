@@ -1,0 +1,3 @@
+ PROC SQL;
+      SELECT * from "C:/SASDATA/FAMILY";
+ QUIT;

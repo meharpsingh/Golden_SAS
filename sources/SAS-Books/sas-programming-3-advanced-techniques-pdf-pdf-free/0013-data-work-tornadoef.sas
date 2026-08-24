@@ -1,0 +1,6 @@
+data work.tornadoEF;
+set pg3.tornado_2017narrative;
+length Narrative_New $ 4242;
+Pos=prxmatch('/EF-/',Narrative);
+Narrative_New=prxchange('s/EF-/EF/',-1,Narrative);
+run;

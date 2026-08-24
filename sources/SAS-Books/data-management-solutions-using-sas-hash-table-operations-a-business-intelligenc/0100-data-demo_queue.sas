@@ -1,0 +1,14 @@
+data Demo_Queue (keep = Action PDV_Data Items) ;
+dcl hash h (ordered:"A") ;
+h.defineKey ("Key") ;
+h.defineData ("Key", "Data") ;
+h.definedone () ;
+dcl hiter ih ("h") ;
+Data = "A" ; link Queue ;
+Data = "B" ; link Queue ;
+Data = "C" ; link Queue ;
+link DeQueue ;
+Data = "D" ; link Queue ;
+Data = "E" ; link Queue ;
+link DeQueue ;
+link DeQueue ;

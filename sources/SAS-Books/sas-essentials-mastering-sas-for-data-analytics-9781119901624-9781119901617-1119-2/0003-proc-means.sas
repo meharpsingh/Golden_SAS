@@ -1,0 +1,4 @@
+PROC MEANS
+File → Exit
+DATA, PROC, INPUT, DATALINES, RUN,
+run;

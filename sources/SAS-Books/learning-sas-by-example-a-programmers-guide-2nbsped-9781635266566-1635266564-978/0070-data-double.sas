@@ -1,0 +1,13 @@
+  data Double;
+Interest = .0375;
+Total = 100;
+do until (Total ge 200);
+Year + 1;
+Total = Total + Interest*Total;
+output;
+end;
+format Total dollar10.2;
+  run;
+  title "Listing of Double";
+  proc print data=Double noobs;
+  run;

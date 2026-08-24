@@ -1,0 +1,52 @@
+proc format cntlin=cohorts(rename=(cohortn=start cohort=label));
+run;
+proc format cntlin=cohorts(drop=fmtname rename=(cohort=start cohortn=label
+cfmtname=fmtname));
+run;
+* add numerical &cohort;
+data dpat;
+       set dpat;
+       cohortn=input(put(cohort,$cohort.),best.);
+run;
+*** 1e. inpdat will be split into 3 bins;
+data inpdat;
+  set dpat;
+  bin=ranuni(117117);
+run;
+proc rank data=inpdat out=inpdat groups=3;
+  var bin;
+run;
+data inpdat;
+  set inpdat;
+  bin=bin+1;
+  label bin="Bin";
+  * Reward: for ITR has to be "the higher the better" so we change the sign of the
+    original outcome;
+  Rwrd=-chgBPIPain_LOCF;
+  Atrt=cohortn; * numerical treatment: for ITR trt. has to be 1,2, ...;
+run;
+title1 "descriptive statistics";
+proc tabulate data=inpdat;
+  class cohort bin &pscat;
+  var &pscnt chgBPIPain_LOCF;
+  table all (bin &pscat)*(N ColPctN)
+        (&pscnt chgBPIPain_LOCF)*(NMiss Mean Std Min Max),cohort all;
+run;
+title1;
+*** 1f. convert categorical variables into 0/1 indicators;
+proc logistic data=inpdat outdesign=inpdat2 outdesignonly;
+  class &pscat/param=ref;
+  model subjid=&pscat &pscnt
+    /noint;
+run;
+* final dataset for ITR;
+data final;
+  merge inpdat(keep=subjid cohort &pscat Atrt Rwrd bin chgBPIPain_LOCF) inpdat2;
+  by subjid;
+run;
+* store names of baseline Xs into xlst;
+proc contents data=inpdat2(drop=subjid) out=inpdat2c;
+run;
+proc sql;
+  select name into :xlst separated by ' ' from inpdat2c where name~='Intercept';
+quit;

@@ -1,0 +1,10 @@
+DATA one;
+P = 1-PROBNORM( (10-12.8)/SQRT(6) );
+RUN;
+DATA two;
+Mu = 12.8;
+Sigma2 = 6;
+Y=10;
+Z = (y-mu)/sqrt(sigma2);
+P = 1 - PROBNORM(Z);
+RUN;

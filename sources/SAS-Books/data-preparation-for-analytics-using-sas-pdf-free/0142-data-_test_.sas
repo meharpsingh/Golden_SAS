@@ -1,0 +1,10 @@
+DATA _test_;
+   SET &data;
+   BY &ID;
+   IF first.&id;
+RUN;
+DATA _NULL_;
+  CALL SYMPUT('n0',STRIP(PUT(nobs,8.)));
+  STOP;
+  SET _test_ nobs=nobs;
+RUN;

@@ -1,0 +1,13 @@
+data _null_;
+   Message='Hello World!';
+   put Message=;
+run;
+proc ds2;
+data _null_;
+   method run();
+      Message='Hello World!';
+      put Message=;
+   end;
+enddata;
+run;
+quit;

@@ -1,0 +1,14 @@
+proc iml;
+* invoke iml;
+title;
+* turn off titles;
+start cholesky;
+* start module;
+call randseed(1234567);
+* set seed for random numbers;
+n = 20000;
+* n = number of observations;
+dat = j(n,5,0);
+* storage matrix;
+call randgen(dat,'normal',0,1);
+* fill dat matrix;

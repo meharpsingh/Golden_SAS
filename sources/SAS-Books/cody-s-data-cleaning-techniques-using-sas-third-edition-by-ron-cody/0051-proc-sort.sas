@@ -1,0 +1,20 @@
+proc sort data=Trimmed;
+   by VarName;
+run;
+proc sort data=Restructure;
+   by VarName;
+run;
+data Outliers;
+   merge Restructure Trimmed;
+   by VarName;
+   Std = StdMean*sqrt(DF + 1);
+   if Value lt Mean - 2*Std and not
+   missing(Value) then do;
+      Reason = 'Low  ';
+      output;
+   end;
+   else if Value gt Mean + 2*Std then do;
+      Reason = 'High';
+      output;
+   end;
+run;

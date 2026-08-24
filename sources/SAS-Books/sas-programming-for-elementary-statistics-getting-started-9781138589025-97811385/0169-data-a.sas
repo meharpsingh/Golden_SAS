@@ -1,0 +1,10 @@
+DATA a;
+r = 16;
+DO WHILE (r<20);
+      r+1;
+      OUTPUT;
+END;
+PROC PRINT DATA=a;
+TITLE 'Objective 15.5';
+RUN;
+QUIT;

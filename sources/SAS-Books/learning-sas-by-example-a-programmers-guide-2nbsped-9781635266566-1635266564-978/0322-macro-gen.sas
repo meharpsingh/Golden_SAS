@@ -1,0 +1,12 @@
+  %macro Gen(n,Start,End);
+data Generate;
+do Subj = 1 to &n;
+x = int(rand('uniform') * (&End - &Start + 1) + &start);
+output;
+end;
+run;
+proc print data=generate noobs;
+title "Randomly Generated Data Set with &n Obs";
+title2 "Values are Integers from &Start to &End";
+run;
+  %mend Gen;

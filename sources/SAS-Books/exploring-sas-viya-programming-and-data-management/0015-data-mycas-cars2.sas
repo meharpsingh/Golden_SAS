@@ -1,0 +1,10 @@
+data mycas.cars2 (partition=(type) orderby=(MSRP));
+set mycas.cars;
+Average_MPG=mean(MPG_City, MPG_Highway);
+keep Make Model Type Average_MPG MSRP LowMSRP HighMSRP;
+by Type;
+if first.Type then LowMSRP=1;
+else LowMSRP=0;
+if last.Type then HighMSRP=1;
+else HighMSRP=0;
+run;

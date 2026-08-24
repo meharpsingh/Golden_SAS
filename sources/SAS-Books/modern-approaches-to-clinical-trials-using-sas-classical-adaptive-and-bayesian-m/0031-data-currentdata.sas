@@ -1,0 +1,12 @@
+data currentdata;
+   input DLT doselevel cohortsize;
+   datalines;
+   0 1 3
+   0 2 3
+   1 3 3
+   0 3 3
+   1 4 3
+   1 4 3
+   2 5 3
+   ;
+run;

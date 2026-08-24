@@ -1,0 +1,10 @@
+   data weekdays;
+      format date yymmp7.;
+      do m = 1 to 12;
+      date = mdy(m,1,2005);
+      d0 = intnx( 'month', date, 0 ) - 1;
+      d1 = intnx( 'month', date, 1 ) - 1;
+      nsunday  = intck( 'week.1', d0, d1 );
+      nmonday  = intck( 'week.2', d0, d1 );
+      ntuesday = intck( 'week.3', d0, d1 );
+      nwedday  = intck( 'week.4', d0, d1 );

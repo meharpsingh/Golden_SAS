@@ -1,0 +1,4 @@
+PROC LIFETEST DATA=myel OUTSURV=a;
+   TIME dur*status(0);
+PROC PRINT DATA=a;
+RUN;

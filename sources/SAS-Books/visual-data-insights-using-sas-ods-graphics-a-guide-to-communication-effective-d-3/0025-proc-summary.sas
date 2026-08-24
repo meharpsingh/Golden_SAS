@@ -1,0 +1,12 @@
+proc summary data=sashelp.shoes nway;
+class Subsidiary;
+var Sales;
+output out=work.Summary sum=;
+run;
+proc sort data=work.Summary out=work.Sorted;
+by descending Sales;
+run;
+data sasuser.CityTotals;
+set work.Sorted;
+Rank = put(_N_,2.);
+run;

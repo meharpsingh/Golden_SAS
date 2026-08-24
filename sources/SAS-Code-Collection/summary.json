@@ -1,0 +1,16 @@
+{
+  "golden": 5287,
+  "copied": 5287,
+  "already_present": 0,
+  "warned_syscc4": 146,
+  "by_folder": {
+    "extracted-sas": 200,
+    "github-repos": 5087
+  },
+  "excluded": {
+    "wrapped_run": 584,
+    "rewritten_on_disk": 200,
+    "not_strict_pass": 2909
+  },
+  "dry_run": false
+}

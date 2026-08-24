@@ -1,0 +1,3 @@
+  PROC REG;
+  MODEL FVC=ASB;
+  RUN;

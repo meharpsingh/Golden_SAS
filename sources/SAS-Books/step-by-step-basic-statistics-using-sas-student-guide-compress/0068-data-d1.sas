@@ -1,0 +1,31 @@
+OPTIONS  LS=80  PS=60;
+DATA D1;
+   INPUT  SUB_NUM
+          VIDGRP  $
+          AGGRESS;
+DATALINES;
+01  PUN  3
+02  PUN  6
+03  PUN  4
+04  PUN  8
+05  PUN  7
+06  PUN  0
+07  PUN  5
+08  PUN  2
+09  PUN  4
+10  PUN  5
+11  PUN  6
+12  PUN  1
+13  PUN  2
+14  PUN  3
+15  PUN  4
+16  PUN  5
+17  PUN  3
+18  PUN  4
+19  REW  8
+20  REW  9
+21  REW  5
+22  REW 10
+
+
+;

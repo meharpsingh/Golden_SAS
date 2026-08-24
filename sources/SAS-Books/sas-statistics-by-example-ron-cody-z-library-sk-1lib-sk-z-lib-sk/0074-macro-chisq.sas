@@ -1,0 +1,15 @@
+%macro chisq(a,b,c,d,options=chisq);
+data chisq;
+array cells[2,2] _temporary_ (&a &b &c &d);
+do row = 1 to 2;
+do Col = 1 to 2;
+Count = cells[Row,Col];
+output;
+end;
+end;
+run;
+proc freq data=chisq;
+tables Row*Col / &options;
+weight Count;
+run;
+%mend chisq;

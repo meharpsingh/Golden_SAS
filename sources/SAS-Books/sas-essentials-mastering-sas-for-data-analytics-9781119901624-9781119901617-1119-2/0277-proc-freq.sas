@@ -1,0 +1,57 @@
+ODS TRACE
+ ODS TRACE ON;
+procedure specifications
+ ;
+ ODS TRACE OFF;
+ ODS TRACE ON;
+procedure specifications
+ ;
+ ODS TRACE OFF;
+ODS
+ ODS SELECT
+tables-to-include
+ ;
+ PROC FREQ CODE;
+ ODS SELECT
+tables-to-include
+ ;
+ PROC FREQ CODE;
+SELECT
+ODS EXCLUDE
+ODS
+ODS3.SAS.
+ DATA TABLE;
+ INPUT A B COUNT;
+ DATALINES;
+
+
+;
+ DATA TABLE;
+ INPUT A B COUNT;
+ DATALINES;
+
+
+ 0 0 12
+
+
+ 0 1 15
+
+
+ 1 0 18
+
+
+ 1 1 3
+
+
+ 0 0 12
+ 0 1 15
+ 1 0 18
+ 1 1 3
+
+
+ ;
+ ODS TRACE ON;
+ PROC FREQ;WEIGHT COUNT;
+    TABLES A*B /CHISQ;
+    TITLE 'CHI-SQUARE ANALYSIS FOR A 2X2 TABLE';
+ RUN;

@@ -1,0 +1,12 @@
+proc iml;
+muE=20;
+muSE=10;
+sd=100;
+NImargin=10;
+vSUPmax=1000;
+vNImax=400;
+alpha=0.05;
+crit=probit(1-alpha/2);
+timec=0.0001;
+startc=50;
+c=0.1;

@@ -1,0 +1,12 @@
+proc sort data=sampsio.soft_score;
+by cust_id;
+run;
+data sampsio.soft_score;
+set sampsio.soft_score;
+sas_soft_proda = prod_a;
+sas_soft_prodb = prod_b;
+sas_soft_prodc = prod_c;
+call softmax(sas_soft_proda,sas_soft_prodb,sas_soft_prodc);
+by cust_id;
+run;
+quit;

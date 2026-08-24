@@ -1,0 +1,15 @@
+DATA MYDATA;
+INPUT GROUP RECTIME;
+DATALINES;
+1    4.2
+2    3.6
+2    3.1
+1    2.1
+1    2.8
+2    1.5
+1    1.8
+;
+PROC SORT DATA=MYDATA OUT=S1; BY RECTIME;
+Title 'Sorting Example - Ascending';
+PROC PRINT DATA=S1;
+RUN;

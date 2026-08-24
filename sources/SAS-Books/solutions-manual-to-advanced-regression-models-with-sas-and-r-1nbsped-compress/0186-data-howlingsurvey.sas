@@ -1,0 +1,25 @@
+data howlingsurvey;
+input ncalls time$ windspeed water$ @@;
+cards;
+2 dusk  0 yes  2 dusk  1 yes  3 dusk  0 no  2 night 6 no   3 dusk  2 no
+4 night 3 yes  5 dusk  1 yes  3 night 5 yes 4 night 5 yes  7 night 0 yes
+1 dusk  6 yes  2 night 1 no   4 dusk  2 yes 6 night 2 yes  5 dusk  3 yes
+2 night 3 yes  3 dusk  0 yes  0 dusk  3 no  1 dusk  3 yes  2 dusk  3 yes
+7 night 2 yes  5 dusk  0 yes  2 night 0 yes 4 night 2 no   6 night 1 yes
+3 night 3 yes  0 dusk  1 no   1 dusk  3 no  4 night 3 yes  1 dusk  0 yes
+4 dusk  2 yes  1 dusk  2 yes
+;
+data howlingsurvey;
+set howlingsurvey;
+if (ncalls>0);
+run;
+proc format;
+value $timefmt "dusk"="ref" "night"="night";
+value $waterfmt "no"="zref" "yes"="yes";
+run;
+/*fitting zero-truncated Poisson model*/
+proc fmm;
+ class time water;
+  model ncalls = time windspeed water / dist=truncpoisson;
+format time $timefmt. water $waterfmt.;
+run;

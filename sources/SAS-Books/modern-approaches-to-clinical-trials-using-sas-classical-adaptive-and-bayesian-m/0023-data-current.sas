@@ -1,0 +1,15 @@
+   data current&s;
+      set current_new;
+      gamma0=g0mean;
+      if &s=0 then do;
+         gamma1=log(&delta);
+         end;
+      else do;
+         gamma1=0;
+      end;
+      theta_k=tk;
+      lambda=exp(gamma0+gamma1*x+theta_k);
+   run;
+%end;
+%do s=0 %to 1;
+  %do m=1 %to &REP;

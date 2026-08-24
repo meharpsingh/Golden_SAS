@@ -1,0 +1,10 @@
+   data cobb_douglas_demand;
+      do p = 1 to 100 by 1;
+            x = (1/2) * 100 / p;
+            output;
+      end;
+   run;
+proc sgplot data = cobb_douglas_demand;
+   series x = p y = x;
+   title 'Cobb-Douglas Demand Function';
+run;

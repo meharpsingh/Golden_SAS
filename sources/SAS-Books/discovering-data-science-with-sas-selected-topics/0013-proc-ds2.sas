@@ -1,0 +1,14 @@
+proc ds2;
+   data;
+      dec double Total Count;
+      method run();
+         set crs.one_day (keep=(Payee Amount));
+         Total+Amount;
+         Count+1;
+      end;
+      method term();
+         put Total= Count=;
+      end;
+   enddata;
+   run;
+quit;

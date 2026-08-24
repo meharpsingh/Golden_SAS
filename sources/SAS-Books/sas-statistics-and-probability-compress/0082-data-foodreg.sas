@@ -1,0 +1,13 @@
+data foodreg;
+* new data set;
+xdyd = 18671.27;
+* sum(xd*yd);
+xd2 = 1828.79;
+* sum(xd**2);
+b2 = xdyd/xd2;
+* slope estimate;
+run;
+proc print data=foodreg;
+* print;
+title 'slope estimate uisng (2.5b)';
+run;

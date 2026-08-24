@@ -1,0 +1,13 @@
+data im;                               * new data set;
+delta0 = -0.1841;                      * lag0 g;
+delta1 = -0.0992;                      * lag1 g;
+theta1 = 0.3501;                       * lag1 du;
+b0 = delta0;                           * impact mulitplier;
+b1 = delta1+b0*theta1;                 * interim multiplier 1;
+b2 = b1*theta1;                        * interim multiplier 2;
+b3 = b2*theta1;                        * interim multiplier 3;
+b4 = b3*theta1;                        * interim multiplier 4;
+proc print data=im;
+var b0 b1 b2 b3 b4;                    * variable list;
+title 'impact and first four interim mulipliers';
+run;

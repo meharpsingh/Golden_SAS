@@ -1,0 +1,32 @@
+data respire;
+input treat $ outcome $ @@;
+datalines;
+placebo f placebo f
+placebo f
+placebo f placebo f
+placebo u placebo u
+placebo u
+placebo u placebo u
+placebo u
+placebo u placebo u
+placebo u
+placebo u
+test
+f test
+f
+test
+f
+test
+f test
+f
+test
+f
+test
+f test
+f
+test
+u test
+u
+test
+u
+;

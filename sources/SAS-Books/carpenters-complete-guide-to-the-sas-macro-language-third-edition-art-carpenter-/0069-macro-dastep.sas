@@ -1,0 +1,11 @@
+%macro dastep(state=AZ);
+data subhosp;
+  %if &state=CA %then %do;
+      set cahosp;
+  %end;
+  %else %do;
+      set azhosp;
+  %end;
+    where date>'19jun2014'd;
+    run;
+%mend dastep;

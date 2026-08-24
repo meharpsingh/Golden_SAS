@@ -1,0 +1,10 @@
+PROC HPNEURAL DATA=MYDATA.BANK_TRAIN;
+   ARCHITECTURE MLP;
+   INPUT &num_vars.;
+   TARGET target / LEVEL=nom;
+   HIDDEN 10;
+   HIDDEN 5;
+   TRAIN;
+   SCORE OUT=scored_NN;
+   CODE FILE= 'C:/Users/James Gearheart/Desktop/SAS Book Stuff/Data/NN_Model.sas';
+run;

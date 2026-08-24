@@ -1,0 +1,17 @@
+data truevar;
+* data set;
+sig2 = 2500;
+* true variance e;
+ssx =  1000;
+* sum(x-xbar)**2;
+truevar = sig2/ssx;
+* true var(b2);
+truese = sqrt(truevar);
+* true se(b2);
+run;
+proc print data=truevar;
+* print;
+var truevar truese;
+* true var & se;
+title 'true var(b2) and se(b2)';
+run;

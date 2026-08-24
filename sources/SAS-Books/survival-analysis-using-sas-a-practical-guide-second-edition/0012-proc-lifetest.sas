@@ -1,0 +1,4 @@
+ODS GRAPHICS ON;
+PROC LIFETEST DATA=recid PLOTS=H;
+  TIME week*arrest(0);
+RUN;

@@ -1,0 +1,18 @@
+data work.warehouses;
+    array W[21:24,0:8,0:9] $ 5  _temporary_;
+    if _N_=1 then do i=1 to 116;
+       set pg3.product_warehouse;
+       W[ProductLine,ProductCatID,ProductLocID]=Warehouse;
+    end;
+    set pg3.product_list;
+    ProdID=put(ProductID,12.);
+    ProductLine=input(substr(ProdID,1,2),2.);
+    ProductCatID=input(substr(ProdID,3,2),2.);
+    ProductLocID=input(substr(ProdID,12,1),1.);
+    WarehouseLoc=W[ProductLine,ProductCatID,ProductLocID];
+    keep ProductID ProductName WarehouseLoc;
+run;
+title 'Warehouse Location for Products';
+proc print data=work.warehouses;
+run;
+title;

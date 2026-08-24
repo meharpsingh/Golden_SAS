@@ -1,0 +1,8 @@
+PROC ARIMA DATA = sashelp.citimon;
+ IDENTIFY VAR =eegp(12);
+ ESTIMATE P=2;
+ IDENTIFY VAR = RTRR CROSSCORR = (eegp(12));
+ ESTIMATE P=1 Q=1 INPUT=(eegp);
+ FORECAST LEAD=12 INTERVAL = month ID = DATE OUT = results;
+RUN;
+QUIT;

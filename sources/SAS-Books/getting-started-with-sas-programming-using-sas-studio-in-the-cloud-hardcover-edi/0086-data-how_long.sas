@@ -1,0 +1,13 @@
+data How_Long;
+   length String $ 5 Miss $ 4;
+   String = 'Abe';
+   Miss = ' ';
+   Length_String = lengthn(String);
+   Store_String = lengthc(String);
+   Display = ':' || String || ':';
+   Length_Miss = lengthn(Miss);
+   Store_Miss = lengthc(Miss);
+run;
+title "Listing of Data Set HOW_LONG";
+proc print data=How_Long noobs;
+run;

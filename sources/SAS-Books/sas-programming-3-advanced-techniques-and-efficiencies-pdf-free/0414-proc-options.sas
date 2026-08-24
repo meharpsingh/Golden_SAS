@@ -1,0 +1,2 @@
+proc options listgroups;
+run;

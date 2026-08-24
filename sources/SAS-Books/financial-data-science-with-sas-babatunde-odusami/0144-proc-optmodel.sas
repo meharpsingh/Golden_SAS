@@ -1,0 +1,13 @@
+proc optmodel;
+      var x >= 0, y >= 0;
+      min Z = (x**2)+(y**2)-2*x+6*y;
+      solve with nlp obj z/algorithm=ip;
+      print x x.dual y y.dual;
+      con A:  3*x+8*y>=25;
+      con B:  x+y <= 5;
+      solve with nlp obj z/algorithm=ip;
+      print x x.dual y y.dual;
+      expand a;
+      print A.dual A.body;
+      print B.dual B.body;
+quit;

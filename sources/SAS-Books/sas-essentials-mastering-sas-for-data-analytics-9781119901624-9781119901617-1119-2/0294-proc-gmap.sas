@@ -1,0 +1,9 @@
+PROC GMAP
+ODS POWERPOINT
+ODS POWERPOINT
+ ODS POWERPOINT FILE="
+filename/path
+ ";
+ ODS POWERPOINT FILE="
+filename/path
+ ";

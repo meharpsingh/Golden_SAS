@@ -1,0 +1,11 @@
+data FMT_PG(rename =(ProductGroupID=start ProductGroupName=label));
+ set ProductGroups end=last;
+ retain fmtname 'PG' type 'n';
+run;
+PROC format library=work cntlin=FMT_PG;
+run;
+data FMT_PSG(rename =(ProductSubGroupName=label));
+ set ProductSubGroups end=last;
+ retain fmtname 'PSG' type 'n';
+ Start = ProductGroupID*100+ProductSubGroupID;
+run;

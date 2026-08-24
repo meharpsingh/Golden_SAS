@@ -1,0 +1,4 @@
+ PROC FORMAT;
+ VALUE $FMTYN "Y"="1 YES"
+  "N"="2 NO";
+ RUN;

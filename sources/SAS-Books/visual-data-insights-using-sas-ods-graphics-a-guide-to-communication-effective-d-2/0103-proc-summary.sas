@@ -1,0 +1,14 @@
+proc summary data=sashelp.shoes;
+class Region;
+var Sales;
+output out=work.Summed sum=;
+run;
+proc sort data=work.Summed out=work.Sorted;
+by descending Sales;
+run;
+data _null_;
+set work.Sorted;
+if _N_ EQ 1;
+call symput('GrandTotal',Sales);
+call symput('GrandTotalForTITLE3',compress(put(Sales,dollar12.)));
+run;

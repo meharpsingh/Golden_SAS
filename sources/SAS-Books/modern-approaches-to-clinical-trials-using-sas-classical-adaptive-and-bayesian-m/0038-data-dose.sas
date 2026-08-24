@@ -1,0 +1,33 @@
+data dose;
+    input dose@@;
+    datalines;
+0 2.5 5 10 20
+;
+run;
+%macro simu(n=, sd=, e0=10, emax=80, ed50=5.5, h=1, outdst=dstcon);
+    ** n is the sample size in each dose group;
+    proc sql noprint;
+       select count(dose)into:ngrp
+       from dose;
+    quit;
+    %let ngrp= &ngrp.;
+    data _null_;
+        set dose;
+        mean=&e0.+(&emax.*dose**&h.)/(dose**&h. + &ed50.**&h.);
+        call symput(compress("mean"||put(_n_, 1.)), compress(mean));
+        call symput(compress("dose"||put(_n_, 1.)), compress(dose));
+    run;
+    %do i=1 %to &ngrp.; %put **** Group &i. **** &&mean&i.; %end;
+    data &outdst.;
+      %do i=1 %to &ngrp.;
+          group=&i.;
+          mean=&&mean&i.;
+          dose=&&dose&i.;
+          do n=1 to &n.;
+             resp=&&mean&i.+ &sd. *rannor(1500); **Seed number 1500 is used;
+             output;
+          end;
+     %end;
+    run;
+%mend;
+%simu(n=60, sd=10, e0=10, emax=80, ed50=5.5, h=1, outdst=dstcon);

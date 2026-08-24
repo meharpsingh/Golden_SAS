@@ -1,0 +1,46 @@
+   OPTIONS  LS=80  PS=60;
+   DATA D1;
+      INPUT  SUB_NUM
+             CONSEQ    $
+             MOD_AGGR  $
+             SUB_AGGR;
+   DATALINES;
+   01 MR L 15
+   02 MR L 22
+   03 MR L 19
+   04 MR L 16
+   05 MR L 11
+   06 MR M 16
+   07 MR M 24
+   08 MR M 10
+   09 MR M 17
+   10 MR M 17
+   11 MR H 17
+   12 MR H 12
+   13 MR H 24
+   14 MR H 20
+   15 MR H 15
+   16 MP L 14
+   17 MP L  7
+   18 MP L 22
+   19 MP L 15
+   20 MP L 13
+   21 MP M 14
+   22 MP M 21
+   23 MP M 11
+   24 MP M  9
+   25 MP M 19
+   26 MP H 15
+   27 MP H  9
+   28 MP H 10
+   29 MP H 20
+   30 MP H 21
+   ;
+   PROC GLM DATA=D1;
+      CLASS  CONSEQ  MOD_AGGR;
+      MODEL  SUB_AGGR = CONSEQ  MOD_AGGR  CONSEQ*MOD_AGGR;
+      MEANS  CONSEQ  MOD_AGGR  CONSEQ*MOD_AGGR;
+      MEANS  CONSEQ  MOD_AGGR / TUKEY  CLDIFF  ALPHA=0.05;
+      TITLE1 'JANE DOE';
+   RUN;
+   QUIT;

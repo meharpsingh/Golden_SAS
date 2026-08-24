@@ -1,0 +1,10 @@
+%macro VarPlot(dataset,grid,q1,q2,q3,h,outdata);
+%GlobalQSmooth(dataset=&dataset,grid=&grid,gamma=&q1,p=5,outdata=upper);
+%GlobalQSmooth(dataset=&dataset,grid=&grid,gamma=&q2,p=5,outdata=mid);
+%GlobalQSmooth(dataset=&dataset,grid=&grid,gamma=&q3,p=5,outdata=lower);
+data initial;
+set upper; h=&h;
+%LocalQSmooth(dataset=&dataset,gamma=&q1,initial=initial,outdata=q1);
+data initial;
+set mid; h=&h;
+%LocalQSmooth(dataset=&dataset,gamma=&q2,initial=initial,outdata=q2);

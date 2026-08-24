@@ -1,0 +1,40 @@
+              data bdat_cf;
+                     set bdat(drop=W);
+                     array aPS(*) ps_star_:;
+                     do W=1 to dim(aPS);
+                            psw_star=aPS(W);
+                            output;
+                     end;
+              run;
+              proc sort data=bdat_cf;
+                     by W;
+              run;
+       * arm specific fit on original data dpatw;
+       * scoring on bootstrap data bdat_cf;
+       * so far the model is parametric;
+              proc gam data=dpatw plots=none;
+                model &outc=param(ps);
+                by W;
+                score data=bdat_cf(rename=(ps=ps0 psw_star=ps))
+out=bdats(rename=(ps0=ps ps=psw_star));
+              run;
+       * calculate residuals i.e. the observed outcome minus GAM
+        predicted outcome;
+    proc sort data=bdats;
+      by subjid;
+    run;
+    proc transpose data=bdats out=bdatst prefix=P_&outc._;
+      var P_&outc;
+      id W;
+      by subjid;
+    run;
+       * add residuals to patient level data;
+    data bdat;
+      merge bdat bdatst;
+      by subjid;
+      array aPY(*) P_&outc._:;
+      eps_star=&outc-aPY(W); * residuals;
+      call symputx('nW',dim(aPY)); * #trt.arms;
+    run;
+       * compute the potential residuals by matching on the original
+        estimated propensity score;

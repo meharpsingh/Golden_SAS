@@ -1,0 +1,17 @@
+data mixbetap0;
+set mixbetap;
+if age= 8 and sex=1 then effect='as081';
+if age=10 and sex=1 then effect='as101';
+if age=12 and sex=1 then effect='as121';
+if age=14 and sex=1 then effect='as141';
+if age= 8 and sex=2 then effect='as082';
+if age=10 and sex=2 then effect='as102';
+if age=12 and sex=2 then effect='as122';
+if age=14 and sex=2 then effect='as142';
+run;
+data mixbetap0;
+set mixbetap0 (drop=age sex);
+run;
+proc print data=mixbetap0;
+title "Fixed effects: parameter estimates (after manipulation)";
+run;

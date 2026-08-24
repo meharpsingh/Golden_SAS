@@ -1,0 +1,31 @@
+OPTIONS  LS=80  PS=60;
+DATA D1;
+   INPUT  SUB_NUM
+          MOD_AGGR  $
+          SUB_AGGR;
+DATALINES;
+01  L  02
+02  L  14
+03  L  10
+04  L  08
+05  L  08
+06  L  15
+07  L  03
+08  L  12
+09  M  13
+10  M  25
+11  M  16
+12  M  20
+13  M  21
+14  M  21
+15  M  17
+16  M  26
+17  H  20
+18  H  14
+19  H  23
+20  H  22
+21  H  24
+22  H  26
+23  H  19
+24  H  29
+;

@@ -1,0 +1,24 @@
+DATA COST_LIVING;
+INPUT City $12. Index Prev_yr_index Housing Food Travel Utility Education Leisure Other;
+DATALINES;
+Adelaide 85 83 35 10 10 9 14 10 12
+Beijing 90 92 40 10 15 10 18 5 2
+Copenhagen 65 64 25 15 10 10 12 12 16
+Doha 56 50 30 15 5 10 10 20 10
+Dubai 75 76 30 16 14 10 20 8 2
+Dublin 45 43 30 10 8 12 10 15 15
+Hong Kong 83 88 45 5 10 15 15 9 1
+Johannesburg 35 40 45 5 5 15 15 10 5
+Manila 41 42 25 10 15 15 20 10 5
+Moscow 48 53 40 20 5 5 10 10 10
+Mumbai 83 85 40 10 15 15 10 9 1
+Munich 65 64 35 10 10 10 10 10 15
+New York 89 85 40 10 15 10 20 5 5
+Oslo 60 58 25 15 5 5 15 20 15
+Paris 70 70 30 10 5 10 10 20 15
+Seoul 73 75 30 10 10 10 15 15 10
+Singapore 75 74 35 15 10 10 20 5 5
+Tokyo 87 85 40 15 10 5 15 14 1
+Zurich 63 61 30 10 10 15 10 10 15
+;
+RUN;

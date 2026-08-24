@@ -1,0 +1,12 @@
+data new_data;
+   if _n_=1 then do;
+      put 'Execution is beginning';
+   end;
+   set crs.one_day;
+run;
+proc ds2;
+data new_data;
+   method init();
+      put 'Execution is beginning';
+   end;
+   method run();

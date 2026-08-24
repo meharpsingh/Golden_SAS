@@ -1,0 +1,17 @@
+ data Compound;
+    Interest = .0375;
+    Total = 100;
+    Year + 1;
+    Total + Interest*Total;
+    output;
+    Year + 1;
+    Total + Interest*Total;
+    output;
+    Year + 1;
+    Total + Interest*Total;
+    output;
+    format Total dollar10.2;
+ run;
+ title "Listing of Compound";
+ proc print data=compound noobs;
+ run;

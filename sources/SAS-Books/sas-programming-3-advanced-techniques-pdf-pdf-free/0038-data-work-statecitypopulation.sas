@@ -1,0 +1,17 @@
+data work.StateCityPopulation work.CapitalPopulation;
+    if _N_=1 then do;
+       if 0 then set pg3.population_usstates;
+       declare hash States(dataset: 'pg3.population_usstates');
+       States.definekey('StateName');
+       States.definedata('Capital','StatePop2017');
+       States.definedone();
+    end;
+    set pg3.population_uscities;
+    StateName=stnamel(StateCode);
+    RC=States.find(key:StateName);
+    if RC ne 0 then call missing(Capital, StatePop2017);
+    PctPop=CityPop2017/StatePop2017;
+    output work.StateCityPopulation;
+    if Capital=CityName then output work.CapitalPopulation;
+    format StatePop2017 comma14. PctPop percent8.1;
+run;

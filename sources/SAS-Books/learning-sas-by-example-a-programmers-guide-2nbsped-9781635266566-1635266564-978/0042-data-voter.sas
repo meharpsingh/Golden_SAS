@@ -1,0 +1,11 @@
+   data Voter;
+input Age Party : $1. (Ques1-Ques4)($1. + 1);
+   datalines;
+   23 D 1 1 2 2
+   45 R 5 5 4 1
+   67 D 2 4 3 3
+   39 R 4 4 4 4
+   19 D 2 1 2 1
+   75 D 3 3 2 3
+   57 R 4 3 4 4
+   ;

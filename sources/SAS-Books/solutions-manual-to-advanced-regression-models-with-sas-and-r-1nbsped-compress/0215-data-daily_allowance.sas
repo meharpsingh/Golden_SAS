@@ -1,0 +1,17 @@
+data daily_allowance;
+input age gender$ job$ allowance @@;
+cards;
+15 M yes 0  18 F yes 3  18 M yes 3  14 F no  6
+16 F yes 2  17 F yes 1  18 F yes 1  15 F no  4
+16 M yes 1  16 F no  9  16 M no  3  16 M no  10
+16 F yes 0  14 M no  9  17 M yes 1  15 M no  0
+15 M no  12 18 M no  3  15 M no  4  18 M yes 0
+15 F no  8  15 M no  5  15 M no  5  14 M no  4
+16 F yes 3  17 M no  2  18 M yes 2  17 F yes 11
+15 M no  6  16 M no  12
+;
+/*fitting negative binomial model*/
+proc genmod;
+ class gender job;
+  model allowance = age gender job / dist=negbin;
+run;

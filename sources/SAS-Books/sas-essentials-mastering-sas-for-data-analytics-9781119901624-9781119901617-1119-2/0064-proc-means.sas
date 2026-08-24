@@ -1,0 +1,3 @@
+PROC MEANS;
+     VAR SBP DBP AGE WT;
+RUN;

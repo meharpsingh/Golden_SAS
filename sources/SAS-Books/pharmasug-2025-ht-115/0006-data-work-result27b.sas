@@ -1,0 +1,11 @@
+data WORK.RESULT27B;
+set WORK.BIG;
+where id in (&listOfIDs.);
+run;
+title "Submit from IML";
+proc print data = WORK.RESULT27B;
+run;
+title;
+endsubmit;
+print OK;
+22 QUIT;

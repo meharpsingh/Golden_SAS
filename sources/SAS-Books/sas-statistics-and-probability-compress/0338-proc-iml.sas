@@ -1,0 +1,10 @@
+proc iml;                              * begin iml;
+start gls;                             * start module;
+use phillips2;                         * open dataset;
+read all into y var{inf};              * define y;
+read all into x var{du};               * define x;
+t = nrow(y);                           * define n;
+one = j(t,1,1);                        * constant term;
+x = one||x;                            * variables in reg;
+k = ncol(x);                           * define k;
+df = t-k;                              * degrees of freedom;

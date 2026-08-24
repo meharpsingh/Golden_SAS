@@ -1,0 +1,88 @@
+proc sort
+  data = adam.adsl
+  (keep = studyid usubjid siteid country age agegr1 agegr1n sex race
+randdt trt01p trt01pn ittfl trtedt)
+  out = adtte;
+    by usubjid;
+proc sort
+  data = adam.adef
+  (keep = usubjid paramcd chg adt visitnum xpseq)
+  out = adef;
+    where paramcd='XPPAIN' and visitnum>0 and (chg<0 or chg>0);
+    by usubjid adt;
+data adef;
+  set adef;
+    by usubjid adt;
+        drop paramcd visitnum;
+        if first.usubjid;
+run;
+proc sort
+  data = adam.adae
+  (keep = usubjid CQ01NAM astdt trtemfl aeseq)
+  out = adae;
+    where CQ01NAM ne '' and trtemfl='Y';
+    by usubjid astdt;
+run;
+** keep only the first occurence of a pain event;
+data adae;
+  set adae;
+    by usubjid aesdt;
+        if first.usubjid;
+run;
+data adtte;
+  merge adtte (in = inadtte rename=(randdt=startdt))
+        adef  (in = inadef)
+        adae  (in = inadae)
+        ;
+    by usubjid ;
+        retain param "Time to First Pain Relief (Days)" paramcd
+"TTPNRELF";
+        rename trt01p    = trtp
+               trt01pn   = trtpn
+        ;
+Shostak, Jack, and Holland, Chris. Implementing CDISC Using SAS®: An End-to-End Guide. Copyright © 2012, SAS Institute Inc., Cary,
+Chapter 7:  Implementing ADaM   135
+        length srcvar $10. srcdom $4.;
+        if (.<chg<0) and (adt<astdt or not inadae) then
+          do;
+            ** ACTUAL PAIN RELIEF BEFORE WORSENING;
+            cnsr = 0;
+            adt  = adt;
+            evntdesc = put(cnsr, evntdesc.) ;
+            srcdom = 'ADEF';
+            srcvar = 'ADY';
+            srcseq = xpseq;
+          end;
+        else if chg>0 and (adt<astdt or not inadae) then
+          do;
+            ** CENSOR: PAIN WORSENING BEFORE RELIEF;
+            cnsr = 1;
+            adt  = adt;
+            evntdesc = put(cnsr, evntdesc.) ;
+            srcdom = 'ADEF';
+            srcvar = 'ADY';
+            srcseq = xpseq;
+          end;
+        else if (.<astdt<adt) then
+          do;
+            ** CENSOR: PAIN AE BEFORE RELIEF;
+            cnsr = 2;
+            adt  = astdt;
+            evntdesc = put(cnsr, evntdesc.) ;
+            srcdom = 'ADAE';
+            srcvar = 'ASTDY';
+            srcseq = aeseq;
+          end;
+        else
+          do;
+            ** CENSOR: COMPLETED STUDY BEFORE PAIN RELIEF OR WORSENING;
+            cnsr = 3;
+            adt  = trtedt;
+            evntdesc = put(cnsr, evntdesc.) ;
+            srcdom = 'ADSL';
+            srcvar = 'TRTEDT';
+            srcseq = .;
+          end;
+        aval = adt - startdt + 1;
+        format adt yymmdd10.;
+run;

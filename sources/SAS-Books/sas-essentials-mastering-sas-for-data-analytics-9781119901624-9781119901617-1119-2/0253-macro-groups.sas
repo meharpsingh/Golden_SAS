@@ -1,0 +1,6 @@
+%MACRO GROUPS(COUNT);
+   %DO I=1 %TO &COUNT;;
+      DATA GP&I;;
+        SET MYSASLIB.SOMEDATA;
+        WHERE STATUS=&I;;
+      RUN;

@@ -1,0 +1,229 @@
+/*+headerPackage+*/
+/**############################################################################**/
+/*                                                                              */
+/*  Copyright Bartosz Jablonski, since July 2019 onward.                        */
+/*                                                                              */
+/*  Code is free and open source. If you want - you can use it.                 */
+/*  I tested it the best I could                                                */
+/*  but it comes with absolutely no warranty whatsoever.                        */
+/*  If you cause any damage or something - it will be your own fault.           */
+/*  You have been warned! You are using it on your own risk.                    */
+/*  However, if you decide to use it do not forget to mention author:           */
+/*  Bartosz Jablonski (yabwon@gmail.com)                                        */
+/*                                                                              */
+/*  Here is the official version:                                               */
+/*
+  Copyright (c) 2019 - 2026 Bartosz Jablonski (yabwon@gmail.com)
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included 
+  in all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.
+                                                                                */
+/**############################################################################**/
+
+/*** HELP START ***/
+/* SPF (SAS Packages Framework) is a set of macros: 
+   - to install, 
+   - to load, 
+   - to get help, 
+   - to unload, or 
+   - to generate SAS packages.
+
+  SAS Packages Framework, version 20260727.
+  See examples below.
+
+  A SAS package is a zip file containing a group of files
+  with SAS code (macros, functions, data steps generating 
+  data, etc.) wrapped up together and %INCLUDEed by
+  a single load.sas file (also embedded inside the zip).
+
+Contributors: 
+- Stu Sztukowski 
+    LinkedIn: https://www.linkedin.com/in/statsguy/ 
+    GitHub: https://github.com/stu-code
+- Ken Nakamatsu 
+    LinkedIn: https://www.linkedin.com/in/k-nkmt 
+    GitHub: https://github.com/k-nkmt
+
+*/
+/*** HELP END ***/
+
+/*+unloadPackage+*/
+/*** HELP START ***/
+
+%macro unloadPackage(
+  packageName                         /* name of a package, 
+                                         e.g. myPackage, 
+                                         required and not null  */
+, path = %sysfunc(pathname(packages)) /* location of a package, 
+                                         by default it looks for 
+                                         location of "packages" fileref */
+, options = %str(LOWCASE_MEMNAME)     /* possible options for ZIP filename */
+, source2 = /*source2*/               /* option to print out details, 
+                                         null by default */
+, zip = zip                           /* standard package is zip (lowcase), 
+                                         e.g. %unloadPackage(PiPackage)
+                                         if the zip is not available use a folder
+                                         unpack data to "pipackage.disk" folder
+                                         and use unloadPackage in the form: 
+                                         %unloadPackage(PiPackage, zip=disk, options=) 
+                                       */
+)/secure
+/*** HELP END ***/
+des = 'Macro to unload SAS package, version 20260727. Run %unloadPackage(HELP) for help info.'
+;
+%if (%superq(packageName) = ) OR (%qupcase(&packageName.) = HELP) %then
+  %do;
+    %local options_tmp ;
+    %let options_tmp = ls=%sysfunc(getoption(ls)) ps=%sysfunc(getoption(ps))
+     %sysfunc(getoption(notes)) %sysfunc(getoption(source))
+     msglevel=%sysfunc(getoption(msglevel))
+    ;
+    options NOnotes NOsource ls=MAX ps=MAX msglevel=N;
+    %put ;
+    %put #################################################################################;
+    %put ###      This is short help information for the `unloadPackage` macro           #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #                                                                               #;
+    %put # Macro to unload SAS packages, version `20260727`                              #;
+    %put #                                                                               #;
+    %put # A SAS package is a zip file containing a group                                #;
+    %put # of SAS codes (macros, functions, data steps generating                        #;
+    %put # data, etc.) wrapped up together and provided with                             #;
+    %put # a single `unload.sas` file (also embedded inside the zip).                    #;
+    %put #                                                                               #;
+    %put # The `%nrstr(%%unloadPackage())` macro clears the package content                       #;
+    %put # from the SAS session.                                                         #;
+    %put #                                                                               #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #                                                                               #;
+    %put #### Parameters:                                                                #;
+    %put #                                                                               #;
+    %put # 1. `packageName`      *Required.* Name of a package, e.g. myPackage,          #;
+    %put #                       Required and not null, default use case:                #;
+    %put #                        `%nrstr(%%unloadPackage(myPackage)).`                           #;
+    %put #                       If empty displays this help information.                #;
+    %put #                                                                               #;
+    %put # - `path=`             *Optional.* Location of a package. By default it        #;
+    %put #                       looks for location of the **packages** fileref, i.e.    #;
+    %put #                        `%nrstr(%%sysfunc(pathname(packages)))`                         #;
+    %put #                                                                               #;
+    %put # - `options=`          *Optional.* Possible options for ZIP filename,          #;
+    %put #                       default value: `LOWCASE_MEMNAME`                        #;
+    %put #                                                                               #;
+    %put # - `source2=`          *Optional.* Option to print out details about           #;
+    %put #                       what is loaded, null by default.                        #;
+    %put #                                                                               #;
+    %put # - `zip=`              Standard package is zip (lowcase),                      #;
+    %put #                        e.g. `%nrstr(%%unloadPackage(PiPackage))`.                      #;
+    %put #                       If the zip is not available use a folder.               #;
+    %put #                       Unpack data to "pipackage.disk" folder                  #;
+    %put #                       and use unloadPackage in the following form:            #;
+    %put #                        `%nrstr(%%unloadPackage(PiPackage, zip=disk, options=))`        #;
+    %put #                                                                               #;
+    %put #-------------------------------------------------------------------------------#;
+    %put #                                                                               #;
+    %put # Visit: `https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation`   #;
+    %put # to learn more.                                                                #;
+    %put # Tutorials available at: `https://github.com/yabwon/HoW-SASPackages`           #;
+    %put #                                                                               #;
+    %put ### Example #####################################################################;
+    %put #                                                                               #;
+    %put #   Enabling the SAS Package Framework                                          #;
+    %put #   from the local directory and installing & loading                           #;
+    %put #   the SQLinDS package from the Internet.                                      #;
+    %put #                                                                               #;
+    %put #   Assume that the `SPFinit.sas` file                                          #;
+    %put #   is located in the "C:/SAS_PACKAGES/" folder.                                #;
+    %put #                                                                               #;
+    %put #   Run the following code in your SAS session:                                 #;
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas;
+    %put  %nrstr( filename packages "C:/SAS_PACKAGES"; %%* setup a directory for packages;        );
+    %put  %nrstr( %%include packages(SPFinit.sas);      %%* enable the framework;                 );
+    %put  ;
+    %put  %nrstr( %%installPackage(SQLinDS)  %%* install the package from the Internet;           );
+    %put  %nrstr( %%helpPackage(SQLinDS)     %%* get help about the package;                      );
+    %put  %nrstr( %%loadPackage(SQLinDS)     %%* load the package content into the SAS session;   );
+    %put  %nrstr( %%unloadPackage(SQLinDS)   %%* unload the package content from the SAS session; );
+    %put ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~;
+    %put #################################################################################;
+    %put ;
+    options &options_tmp.;
+    %GOTO ENDofunloadPackage;
+  %end;
+
+  /* local variables for options */
+  %local ls_tmp ps_tmp notes_tmp source_tmp msglevel_tmp mautocomploc_tmp;
+  %let ls_tmp       = %sysfunc(getoption(ls));
+  %let ps_tmp       = %sysfunc(getoption(ps));
+  %let notes_tmp    = %sysfunc(getoption(notes));
+  %let source_tmp   = %sysfunc(getoption(source));
+  %let msglevel_tmp = %sysfunc(getoption(msglevel));
+  %let mautocomploc_tmp = %sysfunc(getoption(mautocomploc));
+
+  options NOnotes NOsource ls=MAX ps=MAX msglevel=N NOmautocomploc;
+
+  %local _PackageFileref_;
+  data _null_; 
+    length packageName $ 32;
+    packageName = lowcase(symget("packageName")); 
+    call symputX("_PackageFileref_", "P" !! put(MD5(strip(packageName)), hex7. -L), "L");
+  /*run;*/ /* <- comment out, because it can be 1 data step, not 2 */
+
+  /* when the packages reference is multi-directory search for the first one containing the package */
+  /*data _null_;*/ /* <- comment out, because it can be 1 data step, not 2 */
+    exists = 0;
+    length packages $ 32767 p $ 4096;
+    packages = resolve(symget("path"));
+    if char(packages,1) ^= "(" then packages = quote(strip(packages)); /* for paths with spaces */
+    do i = 1 to kcountw(packages, "()", "QS");
+      p = dequote(kscanx(packages, i, "()", "QS"));
+      exists + fileexist(catx("/", p, cats(packageName,".&zip.")));
+      if exists then leave;
+    end;
+    if exists then call symputx("path", p, "L");
+  run;
+ 
+  filename &_PackageFileref_. &ZIP. 
+  /* put location of package myPackageFile.zip here */
+    "&path./%sysfunc(lowcase(&packageName.)).&zip." %unquote(&options.)
+  ;
+  %if %sysfunc(fexist(&_PackageFileref_.)) %then
+    %do;
+      %include &_PackageFileref_.(packagemetadata.sas) / &source2.;
+      filename &_PackageFileref_. clear;
+      options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp.;
+      filename &_PackageFileref_. &ZIP. 
+        "&path./%sysfunc(lowcase(&packageName.)).&zip." %unquote(&options.)
+        ENCODING =
+          %if %bquote(&packageEncoding.) NE %then &packageEncoding. ;
+                                            %else utf8 ;
+      ;
+      %include &_PackageFileref_.(unload.sas) / &source2.;
+
+      /* clear possible unwanted multiple spaces or set to _null_ when missing */
+      options CMPLIB=%sysfunc(coalescec(%sysfunc(compbl(%sysfunc(getoption(CMPLIB)))),_null_));
+    %end;
+  %else %put ERROR:[&sysmacroname] File "&path./&packageName..&zip." does not exist!;
+  filename &_PackageFileref_. clear;
+
+  options ls = &ls_tmp. ps = &ps_tmp. &notes_tmp. &source_tmp. 
+          msglevel = &msglevel_tmp. &mautocomploc_tmp.;
+
+%ENDofunloadPackage:
+%mend unloadPackage;
+

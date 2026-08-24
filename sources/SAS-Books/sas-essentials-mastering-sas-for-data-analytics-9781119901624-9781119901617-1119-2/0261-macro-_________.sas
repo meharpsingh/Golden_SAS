@@ -1,0 +1,6 @@
+%MACRO _________(CHOICE=);
+ DATA TEMP; SET "C:\___________________";
+ IF BRAND="&CHOICE";
+ TITLE "CAR SELECTION FOR ___________";
+ PROC PRINT; VAR BRAND MODEL CITYMPG;
+ RUN;

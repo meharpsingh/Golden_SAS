@@ -1,0 +1,10 @@
+data table_p_hat;
+array sample{150} x1-x150;
+do i = 1 to 1000;
+ do j = 1 to 150;
+  sample{j}=ranbin(0, 1,.6);
+ end;
+ p_hat = mean(of x1-x150);
+ output;
+end;
+run;

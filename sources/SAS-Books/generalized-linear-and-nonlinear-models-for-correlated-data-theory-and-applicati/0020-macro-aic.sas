@@ -1,0 +1,27 @@
+%macro AIC(type=un);
+ods listing close;
+ods output InfoCrit=AIC i;
+proc mixed data=example3 2 3 scoring=100 covtest ic;
+where Breast='Left';
+class Subject ID Group Visit;
+model Serum Estradiol = Group Visit Group*Visit
+Saliva Estradiol /solution;
+repeated Visit / subject=Subject ID type=&type;
+run;
+data AIC i;
+set AIC i;
+Type=''&type'';
+run;
+data AIC;
+set AIC AIC i;
+if Type=' ' then delete;
+run;
+ods listing;
+%mend;
+data AIC;
+%AIC(type=UN);
+%AIC(type=AR(1));
+%AIC(type=CS);
+proc print data=AIC split='|';
+id Type;
+run;

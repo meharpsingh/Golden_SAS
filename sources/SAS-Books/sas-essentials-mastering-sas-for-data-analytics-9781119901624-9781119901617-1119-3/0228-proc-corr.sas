@@ -1,0 +1,4 @@
+ PROC CORR DATA="C:\SASDATA\SOMEDATA" PLOTS=MATRIX;
+      VAR AGE TIME1 TIME2;
+ TITLE 'Example correlations using PROC CORR';
+ RUN;

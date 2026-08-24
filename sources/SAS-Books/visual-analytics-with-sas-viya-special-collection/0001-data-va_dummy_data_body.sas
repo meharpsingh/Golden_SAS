@@ -1,0 +1,15 @@
+data va_dummy_data_body;
+do dummy_data_body = 1 to 25;
+output;
+end;
+run;
+data va_dummy_data_local;
+do dummy_data_local = 1 to 25;
+output;
+end;
+run;
+data va_dummy_data_global;
+do dummy_data_global = 1 to 25;
+output;
+end;
+run;

@@ -1,0 +1,14 @@
+data interval;
+merge parms se;
+* merge data sets;
+tc = tinv(.975,38);
+* 97.5 percentile t(38);
+lb2 = b2 - tc*se2;
+* lower bound beta 2;
+ub2 = b2 + tc*se2;
+* upper bound beta 2;
+run;
+proc print data=interval;
+var b2 se2 tc lb2 ub2;
+title '95% interval estimate';
+run;

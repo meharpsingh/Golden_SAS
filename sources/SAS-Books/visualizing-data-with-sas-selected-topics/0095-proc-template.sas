@@ -1,0 +1,17 @@
+proc template;
+source styles / file='style.tmp';
+run;
+data _null_;
+infile 'style.tmp' pad;
+length style $ 80;
+retain style;
+input line $char80.;
+file print;
+if index(lowcase(line), 'define style') then style = line;
+if index(lowcase(line), ' graphfonts ') then do;
+y + 1;
+put style $char80.;
+end;
+if y then put line $char80.;
+if index(line, ';') then y = 0;;
+run;

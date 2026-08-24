@@ -1,0 +1,10 @@
+proc optmodel;
+      var y1 >= 0.0 , y2 >= 0.0;
+      min Z = 6*y1 +y2;
+      con 4.5*y1 + y2 >=4.0;
+      con  8.0*y1 + y2= 6.0;
+      solve with lp / algorithm=ps;
+      print y1 y2;
+      print _ACON_.dual _ACON_.body;
+      expand;
+quit;

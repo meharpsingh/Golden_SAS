@@ -1,0 +1,12 @@
+data _null_ ;
+dcl hash SAVE ;
+dcl hash H ;
+H = _new_ hash() ; *Create H instance #1;
+SAVE = H ;
+*Save current PDV value of H;
+*...block #1...;
+H = _new_ hash() ; *Create H instance #2;
+*...block #2...;
+H = SAVE ;
+*...rest of program...;
+run ;

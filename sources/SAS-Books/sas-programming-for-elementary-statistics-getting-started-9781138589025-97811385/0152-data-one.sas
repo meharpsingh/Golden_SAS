@@ -1,0 +1,13 @@
+DATA one;
+a = PROBBNML(0.3, 8, 5);
+*P(Y <= 5);
+b = PROBBNML(0.3, 8, 5) - PROBBNML(0.3, 8, 4);
+*P(Y = 5);
+c = PROBBNML(0.3, 8, 6) - PROBBNML(0.3, 8, 3);
+*P(4 <= Y <= 6);
+d = 1 - PROBBNML(0.3, 8, 3);
+*P(Y > 3) = P(Y >= 4) = 1 - P(Y <= 3);
+PROC PRINT DATA=one;
+TITLE 'Objective 13.1 - Binomial Probability Distribution';
+RUN;
+QUIT;

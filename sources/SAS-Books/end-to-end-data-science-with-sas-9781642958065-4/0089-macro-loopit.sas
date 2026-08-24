@@ -1,0 +1,10 @@
+%MACRO loopit(mylist);
+       %LET n = %SYSFUNC(countw(&mylist));
+       %DO I=1 %TO &n;
+              %LET val = %SCAN(&mylist,&I);
+              data chk;
+set mydata.chk(keep=row_num &val. &val._MIN &val._MAX &val._MEAN);
+if &val. = . then &val. = &val._MEAN; ELSE &val. = &val.;
+if &val. lt &val._MIN then &val = &val._MIN; ELSE &val. = &val.;
+if &val. gt &val._MAX then &val = &val._MAX; ELSE &val. = &val.;
+              RUN;

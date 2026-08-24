@@ -1,0 +1,11 @@
+DATA test;
+INPUT name $ id score grade $;
+DATALINES;
+Bill   123000000  85 B
+.   234000000  96 A
+Steven  345000000  80 B
+Carla  456000000  . .
+Dana   567000000  97 A
+Lisa  789000000  81 B
+;
+RUN;

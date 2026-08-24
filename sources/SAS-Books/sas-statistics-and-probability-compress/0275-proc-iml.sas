@@ -1,0 +1,11 @@
+proc iml;                              * invoke iml;
+start glsmc;
+* begin module;
+use hetdata;                            * open SAS dataset;
+read all var{x} into x2;               * read x2;
+read all var{sig} into sig;
+* read sig;
+n = nrow(x2);                           * n = number rows in y;
+x1 = j(n,1,1);                         * x1 is column of ones;
+x = x1||x2;                            * X is horizontal concant;
+k = ncol(x);                           * define k;

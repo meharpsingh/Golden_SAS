@@ -1,0 +1,18 @@
+OPTIONS  LS=80  PS=60;
+DATA D1;
+   INPUT   PREF     $
+           SCHOOL   $
+           NUMBER   ;
+DATALINES;
+IBM   ARTS    40
+IBM   BUS     75
+IBM   ED      68
+MAC   ARTS    50
+MAC   BUS     65
+MAC   ED      72
+;
+PROC FREQ   DATA=D1;
+   TABLES   PREF*SCHOOL   /   ALL;
+   WEIGHT   NUMBER;
+   TITLE1  'JANE DOE';
+RUN;

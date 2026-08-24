@@ -1,0 +1,14 @@
+proc iml;
+* invoke IML;
+title;
+start probit;
+* start module;
+use mroz;
+* open dataset;
+read all into x var{age educ kidsl6};  * read X;
+read all into y var{lfp};
+* read y;
+bname ={const,age, educ, kidsl6};
+* variable names;
+n = nrow(y);
+* number of obs;

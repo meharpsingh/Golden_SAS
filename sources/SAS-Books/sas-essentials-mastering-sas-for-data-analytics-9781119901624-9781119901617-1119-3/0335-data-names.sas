@@ -1,0 +1,18 @@
+  DATA NAMES;
+  FORMAT FIRST LAST MAYBE $20.;
+  INPUT @1 NAME $30.;
+  FIRST=SCAN(NAME,1," ");
+  LAST = SCAN(NAME, -1);
+  MAYBE=SCAN(NAME,-2);
+  IF MAYBE=FIRST THEN MAYBE="";
+  IF LENGTH(MAYBE)=1 THEN MAYBE="";
+  LASTNAME=CAT(MAYBE, LAST);
+  FULLNAME=CAT(FIRST,TRIM(LASTNAME));
+  DATALINES;
+  Alfred J. Prufrock
+  Benjamin Harrison
+  George H. W. Bush
+  Vincent Van Gogh
+  A. C. Elliott
+  ;
+  RUN;

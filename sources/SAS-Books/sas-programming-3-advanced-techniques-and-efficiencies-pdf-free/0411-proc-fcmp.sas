@@ -1,0 +1,14 @@
+proc fcmp outlib=work.functions.Marketing;
+   function NUMS(DSN $);
+      length DSN $41;
+      DSID=open(DSN);
+      return(attrn(DSID, "NLOBSF"));
+      DSID=close(DSID);
+   endsub;
+   run;
+quit;
+options cmplib=work.functions;
+data _null_;
+   X=NUMS('orion.internet');
+   put X=;
+run;

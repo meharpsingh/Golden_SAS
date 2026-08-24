@@ -1,0 +1,13 @@
+PROC FOREST <options>;
+                   AUTOTUNE <options>;
+                   CODE <options>;
+                   CROSSVALIDATION <options>;
+                   GROW criterion;
+                   ID variables;
+                   INPUT variables </ LEVEL=NOMINAL | INTERVAL>;
+                   OUTPUT OUT=CAS-libref.data-table <option>;
+                   PARTITION partition-option;
+                   SAVESTATE RSTORE=CAS-libref.data-table;
+                   TARGET variable </ LEVEL=NOMINAL | INTERVAL>;
+                   VIICODE <options>;
+                   WEIGHT variable;

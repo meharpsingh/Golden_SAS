@@ -1,0 +1,13 @@
+data archtest;
+t = 500;                               * sample size;
+q = 1;                                 * # ARCH effects;
+rsq = 0.1246;                          * Regression R-sq;
+lm = (t-q)*rsq;                        * LM test statistic;
+chic_95 = cinv(.95,q);                 * 95% critical value;
+chic_99 = cinv(.99,q);                 * 99% critical value;
+pval = 1 - probchi(lm,1);              * p-value;
+run;
+proc print data=archtest;              * print;
+var t rsq lm chic_95 chic_99 pval;     * variable list;
+title 'LM test for ARCH effects';
+run;

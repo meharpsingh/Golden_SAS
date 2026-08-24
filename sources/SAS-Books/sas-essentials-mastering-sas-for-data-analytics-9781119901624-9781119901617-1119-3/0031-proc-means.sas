@@ -1,0 +1,2 @@
+ PROC MEANS;
+ RUN;

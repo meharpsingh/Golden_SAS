@@ -1,0 +1,205 @@
+/* validation bootstrap for extracted snippets */
+%let _EXTRACTED_BOOTSTRAP=1;
+%let path=%sysfunc(pathname(work));
+%let file=%sysfunc(pathname(work))/snippet.csv;
+
+/* Extracted from github-repos/HHS-AHRQ__MEPS/SAS/workshop_exercises/exercise_4c/Exercise4c_log.TXT (txt 1) */
+
+NOTE: PROCEDURE PRINTTO used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+607  
+608  
+609  /* Clear log, output, and ODSRESULTS from the previous run automatically */;
+610  DM "Log; clear; output; clear; odsresults; clear";
+611  proc datasets lib=work nolist kill;
+NOTE: Deleting WORK.MEPS_1718 (memtype=DATA).;
+NOTE: Deleting WORK.MEPS_2017 (memtype=DATA).;
+NOTE: Deleting WORK.MEPS_2018 (memtype=DATA).;
+611!                                     quit;
+
+NOTE: PROCEDURE DATASETS used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+611!                                           /* Delete  all files in the WORK library */
+612  
+613  OPTIONS NOCENTER LS=132 PS=79 NODATE FORMCHAR="|----|+|---+=|-/\<>*" PAGENO=1;
+614  /* Turn Off the Warning Message
+615  WARNING: Multiple lengths were specified for the variable Name by input data set(s).;
+616  */
+617  OPTIONS varlenchk=nowarn;
+618  
+619  /* Create use-defined formats and store them in a catalog called FORMATS
+620     in the work folder. They will be deleted at the end of the SAS session.;
+621  */
+622  PROC FORMAT;
+623  
+624    VALUE totexp_fmt
+625        0         = 'No Expense'
+626        Other     = 'Any Expense';
+NOTE: Format TOTEXP_FMT has been output.;
+627  
+628    VALUE agecat_fmt
+629         18-49 = '18-49'
+630         50-64 = '50-64'
+631         65-high= '65+';
+NOTE: Format AGECAT_FMT has been output.;
+632  
+633  
+634       value yes_no_fmt
+635        1 = 'Yes'
+636        2 = 'No';
+NOTE: Format YES_NO_FMT has been output.;
+637  
+638  
+639  run;
+
+NOTE: PROCEDURE FORMAT used (Total process time):;
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+640  ***************  MEPS 2017;
+641  %LET DataFolder = C:\MEPS_Data;  /* Adjust the folder name, if needed */;
+642  libname CDATA "&DataFolder";
+NOTE: Libref CDATA was successfully assigned as follows: 
+      Engine:        V9 
+      Physical Name: C:\MEPS_Data
+643  
+644  %let kept_vars_2017 =  VARSTR VARPSU perwt17f agelast ARTHDX JTPAIN31 totexp17 totslf17;
+645  data meps_2017;
+646   set CDATA.h201v9 (keep= &kept_vars_2017;
+647                   rename=(totexp17=totexp
+648                           totslf17=totslf));
+649    perwtf = perwt17f/2;;
+650  
+651  
+652     * Create a subpopulation indicator called SPOP
+653      and a new variable called JOINT_PAIN  based on ARTHDX and JTPAIN31;
+654  
+655     spop=2;
+656     if agelast>=18 and not (ARTHDX <=0 and JTPAIN31 <0) then do;
+657        SPOP=1;
+658       if ARTHDX=1 | JTPAIN31=1 then joint_pain =1;
+659       else joint_pain=2;
+660     end;
+661  
+662     label totexp = 'TOTAL HEALTH CARE EXP'
+663           totslf = 'TOTAL AMOUNT PAID - SELF-FAMILY';
+664  run;
+
+NOTE: There were 31880 observations read from the data set CDATA.H201V9.;
+NOTE: The data set WORK.MEPS_2017 has 31880 observations and 11 variables.;
+NOTE: DATA statement used (Total process time):;
+      real time           0.22 seconds
+      cpu time            0.03 seconds
+      
+
+665  
+666  
+667  *** 2018 MEPS ;
+668  
+669  %let kept_vars_2018 =  VARSTR VARPSU perwt18f agelast ARTHDX JTPAIN31_M18 totexp18 totslf18;
+670  data meps_2018;
+671   set CDATA.h209v9 (keep= &kept_vars_2018;
+672                   rename=(totexp18=totexp
+673                           totslf18=totslf));
+674    perwtf = perwt18f/2;
+675  
+676    * Create a subpopulation indicator called SPOP
+677      and a new variable called JOINT_PAIN  based on ARTHDX and JTPAIN31_M18;
+678  
+679     spop=2;
+680     if agelast>=18 and not (ARTHDX <=0 and JTPAIN31_M18 <0) then do;
+681        SPOP=1;
+682       if ARTHDX=1 | JTPAIN31_M18=1 then joint_pain =1;
+683       else joint_pain=2;
+684     end;
+685  run;
+
+NOTE: There were 30461 observations read from the data set CDATA.H209V9.;
+NOTE: The data set WORK.MEPS_2018 has 30461 observations and 11 variables.;
+NOTE: DATA statement used (Total process time):;
+      real time           0.31 seconds
+      cpu time            0.07 seconds
+      
+
+686  
+687  
+688  **** Concatenate 2017 and 2018 analytic data files;
+689  
+690  data MEPS_1718;
+691    set meps_2017(rename=(JTPAIN31 = JTPAIN));
+692        meps_2018 (rename=(JTPAIN31_M18 = JTPAIN));
+693         TOTEXP_X = TOTEXP;
+694  run;
+
+NOTE: There were 31880 observations read from the data set WORK.MEPS_2017.;
+NOTE: There were 30461 observations read from the data set WORK.MEPS_2018.;
+NOTE: The data set WORK.MEPS_1718 has 62341 observations and 13 variables.;
+NOTE: DATA statement used (Total process time):;
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+695  
+696  
+697  
+698  title 'MEPS 2017-18 combined';
+699  
+700  proc freq data=MEPS_1718;
+701  tables ARTHDX*JTPAIN*joint_pain
+702         ARTHDX*JTPAIN*spop
+703         spop joint_pain /list missing;
+704  run;
+
+NOTE: There were 62341 observations read from the data set WORK.MEPS_1718.;
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+705  
+706  title 'MEPS 2017-18 combined';
+707  ods exclude statistics;
+708  PROC SURVEYMEANS DATA=meps_1718  nobs mean stderr sum ;
+709      VAR joint_pain ;
+710      STRATUM VARSTR ;
+711      CLUSTER VARPSU;
+712      WEIGHT perwtf;
+713      domain spop('1');
+714      class joint_pain;
+715      format joint_pain yes_no_fmt. ;
+716  RUN;
+
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           0.08 seconds
+      cpu time            0.09 seconds
+      
+
+717  
+718  title 'MEPS 2017-18 combined';
+719  ods exclude statistics;
+720  PROC SURVEYMEANS DATA=meps_1718  nobs mean stderr sum;
+721      VAR totexp totslf;
+722      STRATUM VARSTR ;
+723      CLUSTER VARPSU;
+724      WEIGHT perwtf;
+725      domain spop('1')*joint_pain;
+726      format joint_pain yes_no_fmt.  ;
+727  RUN;
+
+NOTE: PROCEDURE SURVEYMEANS used (Total process time):
+      real time           1.20 seconds
+      cpu time            0.98 seconds
+      
+
+728  TITLE;
+729  /* THE PROC PRINTTO null step is required to close the PROC PRINTTO,
+730   only if used earlier., Otherswise. please comment out the next two lines  */;
+731  
+732  proc printto;

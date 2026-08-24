@@ -1,0 +1,21 @@
+proc summary data=sashelp.shoes;
+class Subsidiary;
+var Sales;
+output out=work.Totals sum=;
+run;
+data _null_;
+set work.Totals nobs=CityCountPlusOne;
+where _type_ EQ 0;
+call symput('TotalSales',Sales);
+call symput('TotalDollars',trim(left(put(Sales,dollar11.))));
+call symput('CityCount',trim(left(CityCountPlusOne - 1)));
+run;
+proc sort data=work.Totals out=work.CityTotals;
+where _type_ NE 0;
+by descending Sales;
+run;
+footnote;
+ods results=off;
+ods _all_ close;
+ods listing style=GraphFontArial8ptBold gpath="C:\temp" dpi=300;
+/* ODS GRAPHICS settings for ALL three images: */

@@ -1,0 +1,10 @@
+proc iml;
+    do i = 1 to 1000;
+        if i <= 500 then do;
+            submit block;
+        end;
+        else do;
+            submit block;
+        end;
+    end;
+quit;

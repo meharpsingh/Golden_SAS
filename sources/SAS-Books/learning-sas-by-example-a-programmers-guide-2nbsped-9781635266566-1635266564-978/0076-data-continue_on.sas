@@ -1,0 +1,13 @@
+  data Continue_on;
+Interest = .0375;
+Total = 100;
+do Year = 1 to 100 until (Total ge 200);
+Total = Total + Interest*Total;
+if Total le 150 then continue;
+output;
+end;
+format Total dollar10.2;
+  run;
+  title "Listing of Data Set Continue_on";
+  proc print data=Continue_on noobs;
+  run;

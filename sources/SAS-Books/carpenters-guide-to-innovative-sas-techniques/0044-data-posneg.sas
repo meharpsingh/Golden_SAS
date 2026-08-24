@@ -1,0 +1,13 @@
+data posneg;
+   do v=.,-2 to 2;
+      *if positive;
+      pos = sign(v)=1;
+      * Not positive;
+      notpos = (sign(v) in(-1,0));
+      * Negative;
+      neg = ^sign(v)=-1;
+      * Not negative;
+      notneg = sign(v) in (0,1);
+      output posneg;
+   end;
+run;

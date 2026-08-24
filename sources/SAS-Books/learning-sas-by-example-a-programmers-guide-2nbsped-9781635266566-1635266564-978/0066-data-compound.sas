@@ -1,0 +1,12 @@
+  data Compound;
+Interest = .0375;
+Total = 100;
+do Year = 1 to 3;
+Total + Interest*Total;
+output;
+end;
+format Total dollar10.2;
+  run;
+  title "Listing of Data Set Compound";
+  proc print data=Compound noobs;
+  run;

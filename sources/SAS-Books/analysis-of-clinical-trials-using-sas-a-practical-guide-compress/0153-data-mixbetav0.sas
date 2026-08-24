@@ -1,0 +1,35 @@
+data mixbetav0;
+set mixbetav;
+if age= 8 and sex=1 then effect='as081';
+if age=10 and sex=1 then effect='as101';
+if age=12 and sex=1 then effect='as121';
+if age=14 and sex=1 then effect='as141';
+if age= 8 and sex=2 then effect='as082';
+if age=10 and sex=2 then effect='as102';
+if age=12 and sex=2 then effect='as122';
+if age=14 and sex=2 then effect='as142';
+run;
+data mixbetav0;
+title "Fixed effects: variance-covariance matrix (after manipulation)";
+set mixbetav0 (drop=row age sex);
+run;
+proc print data=mixbetav0;
+run;
+data mixalfap0;
+set mixalfap;
+effect=covparm;
+run;
+data mixalfav0;
+set mixalfav;
+effect=covparm;
+Col1=CovP1;
+Col2=CovP2;
+run;
+proc print data=mixalfap0;
+title "Variance components: parameter estimates
+(after manipulation)";
+run;
+proc print data=mixalfav0;
+title "Variance components: covariance parameters
+(after manipulation)";
+run;

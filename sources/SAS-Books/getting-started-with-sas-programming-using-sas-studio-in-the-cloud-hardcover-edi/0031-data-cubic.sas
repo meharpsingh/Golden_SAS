@@ -1,0 +1,10 @@
+data Cubic;
+   do x = -5 to 5 by .01;
+      y = 2*x**3 - x**2 + 3*x;
+      output;
+   end;
+run;
+title "Graph of Cubic Equation";
+proc sgplot data=Cubic;
+   series x=x y=y;
+run;

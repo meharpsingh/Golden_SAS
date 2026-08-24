@@ -1,0 +1,12 @@
+proc print data=mixbetap;
+title "Fixed effects: parameter estimates";
+run;
+proc print data=mixbetav;
+title "Fixed effects: variance-covariance matrix";
+run;
+proc print data=mixalfav;
+title "Variance components: covariance parameters";
+run;
+proc print data=mixalfap;
+title "Variance components: parameter estimates";
+run;

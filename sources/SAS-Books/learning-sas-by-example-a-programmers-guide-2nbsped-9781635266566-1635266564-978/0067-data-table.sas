@@ -1,0 +1,10 @@
+  data Table;
+do n = 1 to 10;
+Square = n*n;
+SquareRoot = sqrt(n);
+output;
+end;
+  run;
+  title "Table of Squares and Square Roots";
+  proc print data=table noobs;
+  run;

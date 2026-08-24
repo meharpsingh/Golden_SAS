@@ -1,0 +1,10 @@
+proc optmodel;
+      var x1 >= 0.0 , x2 >= 0.0;
+      max Z = 4*x1 +6*x2;
+      con 4.5*x1 + 8*x2 <= 6.0;
+      con x1 + x2= 1.0;
+      solve with lp / algorithm=ps;
+      print x1 x2;
+      print _ACON_.dual _ACON_.body;
+      expand;
+quit;

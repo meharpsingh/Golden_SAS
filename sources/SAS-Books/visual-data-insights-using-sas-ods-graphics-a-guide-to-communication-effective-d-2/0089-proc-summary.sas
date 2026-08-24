@@ -1,0 +1,13 @@
+proc summary data=sashelp.shoes nway;
+class product;
+var Sales;
+output out=work.ToChart sum=;
+run;
+proc sort data=work.ToChart;
+by descending Sales;
+run;
+data work.ToChart;
+length SalesDollars $ 5;
+set work.ToChart;
+SalesDollars = put(Sales / 1000000,dollar5.2);
+run;

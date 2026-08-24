@@ -1,0 +1,12 @@
+data a;
+call streaminit(4321);
+do i = 1 to 10;
+x=rand("uniform"); output;
+end;
+run;
+data b;
+call streaminit(4321);
+do i = 1 to 10;
+x=rand("uniform"); output;
+end;
+run;

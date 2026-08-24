@@ -1,0 +1,23 @@
+data electrod;
+input subject resist1-resist5;
+type=1;
+resist=resist1;
+output;
+type=2;
+resist=resist2;
+output;
+type=3;
+resist=resist3;
+output;
+type=4;
+resist=resist4;
+output;
+type=5;
+resist=resist5;
+output;
+datalines;
+66 1000 1050
+;
+proc freq;
+tables subject*type*resist / noprint cmh2 scores=rank;
+run;

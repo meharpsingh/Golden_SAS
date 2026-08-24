@@ -1,0 +1,15 @@
+proc iml;                              * invoke iml;
+start harvey;                           * start module;
+use food;                               * open dataset;
+read all into y var{food_exp};          * define y;
+read all into x var{one income};       * define x;
+read all into z var{one lincome};
+* define z-using log(x);
+n = nrow(y);
+* define n;
+k = ncol(x);
+* define k;
+p = ncol(z);
+* define p;
+one = j(n,1,1);                        * unit vector;
+run;

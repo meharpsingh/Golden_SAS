@@ -1,0 +1,15 @@
+data Bank;
+   Interest_Rate=.07;
+   Amount = 1000;
+   Goal = 2000;
+   do until (Amount gt Goal);
+      Year + 1;
+      Amount = Amount + Interest_Rate*Amount;
+      if Amount lt 1500 then continue;
+      output;
+   end;
+   format Amount Goal dollar9.2;
+run;
+title "Listing of Data Set Bank";
+proc print data=bank noobs;
+run;

@@ -1,0 +1,12 @@
+data wheat;
+* open data set;
+set wheat;
+* read data set;
+lyield = log(yield);
+* create variable;
+run;
+ods graphics on;
+proc reg data=wheat plots=(residuals(smooth) residualhistogram);
+model lyield = time;
+title 'log-linear wheat production model';
+run;

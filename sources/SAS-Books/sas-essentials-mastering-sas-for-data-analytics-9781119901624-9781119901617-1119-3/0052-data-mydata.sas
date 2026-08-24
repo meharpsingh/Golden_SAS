@@ -1,0 +1,8 @@
+DATA MYDATA;
+INPUT A B C D E F G;
+DROP E F;
+DATALINES;
+... etc ...
+
+
+;

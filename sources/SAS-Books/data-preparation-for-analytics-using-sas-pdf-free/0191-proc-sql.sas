@@ -1,0 +1,7 @@
+PROC SQL;
+ CREATE TABLE Visit_Days AS
+ SELECT CustID, COUNT(DISTINCT date) AS Visit_Days
+ FROM PointOfSale
+ GROUP BY CustID
+ ORDER BY CustID;
+QUIT;

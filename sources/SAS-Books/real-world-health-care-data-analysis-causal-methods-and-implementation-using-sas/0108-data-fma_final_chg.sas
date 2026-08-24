@@ -1,0 +1,21 @@
+data fma_final_chg; delete; run; * place for final results: for each method
+   the ATE,its CVMSPE, and its FMA weight;
+%macro runBoo;
+  %local time0;
+  %if &verbose=0 %then %do;
+    option nonotes;
+    ods listing exclude all;
+  %end;
+  %let time0=%sysfunc(putn(%sysfunc(time()),time.));
+  %do iboo=0 %to &nBoo;
+    %put ############ booN=&iboo;
+    title1 "############ booN=&iboo";
+    %oneBooDat(booN=&iboo);
+    title1;
+  %end;
+  %put start=&time0, end=%sysfunc(putn(%sysfunc(time()),time.));
+  option notes;
+  ods listing select all;
+%mend runBoo;
+%runBoo;
+***************************************************************;

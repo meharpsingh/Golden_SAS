@@ -1,0 +1,27 @@
+data work.storm_cat345_facts work.nonmatches;
+    if _N_=1 then do;
+       if 0 then do;
+          set pg3.storm_range;
+          set pg3.storm_basincodes;
+       end;
+       declare hash Storm(dataset:'pg3.storm_range');
+       Storm.definekey('StartYear','Name','Basin');
+       Storm.definedata('Wind1','Wind2','Wind3','Wind4');
+       Storm.definedone();
+       declare hash BasinDesc(dataset:'pg3.storm_basincodes');
+       BasinDesc.definekey('Basin');
+       BasinDesc.definedata('BasinName');
+       BasinDesc.definedone();
+    end;
+    set pg3.storm_summary_cat345;
+    ReturnCode1=Storm.find(key:year(StartDate),key:Name,key:Basin);
+    ReturnCode2=BasinDesc.find(key:Basin);
+    if ReturnCode1=0 and ReturnCode2=0 then
+       output work.storm_cat345_facts;
+    else output work.nonmatches;
+    drop StartYear;
+run;
+title 'Storm Statistics with Basin Names for Category 3, 4, and 5';
+proc print data=work.storm_cat345_facts;
+run;
+title;

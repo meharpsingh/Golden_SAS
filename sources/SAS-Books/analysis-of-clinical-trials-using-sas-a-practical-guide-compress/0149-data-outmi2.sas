@@ -1,0 +1,12 @@
+data outmi2;
+set outmi;
+array y (4) meas8 meas10 meas12 meas14;
+do j=1 to 4;
+measmi=y(j);
+age=6+2*j;
+output;
+end;
+run;
+proc print data=outmi2;
+title "Vertical imputed data set";
+run;

@@ -1,0 +1,11 @@
+libname mycas cas;
+libname local '/home/student/casuser/VBBF';
+data mycas.TL_train;
+set local.TL_train;
+run;
+data mycas.TL_noAlien;
+set local.TL_noAlien;
+run;
+data mycas.TL_test;
+        set local.TL_test;
+run;

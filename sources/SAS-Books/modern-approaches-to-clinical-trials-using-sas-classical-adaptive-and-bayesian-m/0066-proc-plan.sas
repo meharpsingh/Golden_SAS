@@ -1,0 +1,10 @@
+proc plan seed=3;
+   factors Block=2 random Sequence=4 ordered / noprint;
+   treatments Treatment=4;
+   output out=PermutedBlock Treatment cvals=('A' 'A' 'B' 'B') random;
+run;
+proc sort data = PermutedBlock;
+   by block sequence;
+run;
+proc print data = PermutedBlock;
+run;

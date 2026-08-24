@@ -1,0 +1,3 @@
+PROC LIFETEST DATA=recid METHOD=LIFE;
+   TIME week*arrest(0);
+RUN;

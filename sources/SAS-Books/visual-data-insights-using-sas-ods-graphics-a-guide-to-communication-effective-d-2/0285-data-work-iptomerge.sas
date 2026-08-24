@@ -1,0 +1,14 @@
+data work.IPtoMerge work.LHURtoMerge work.LUINCtoMerge;
+keep CitiVar CitiValue Date;
+length CitiVar $ 5  CitiValue 8;
+set sasuser.EconomicData;
+CitiVar = 'IP';
+CitiValue = IP / 10;
+output work.IPtoMerge;
+CitiVar = 'LHUR';
+CitiValue = LHUR;
+output work.LHURtoMerge;
+CitiVar = 'LUINC';
+CitiValue = LUINC / 100;
+output work.LUINCtoMerge;
+run;

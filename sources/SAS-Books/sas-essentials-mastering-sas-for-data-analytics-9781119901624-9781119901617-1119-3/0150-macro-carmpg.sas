@@ -1,0 +1,11 @@
+%MACRO CARMPG(B);
+  DATA &B;
+     SET MYSASLIB.AUTOMPG;
+     WHERE BRAND="&B";
+  RUN;
+  TITLE "Miles Per Gallon Averages for &B ";
+  PROC MEANS DATA=&B;
+  VAR CITYMPG HWYMPG;
+  RUN;
+%MEND CARMPG;
+%CARMPG (FORD);

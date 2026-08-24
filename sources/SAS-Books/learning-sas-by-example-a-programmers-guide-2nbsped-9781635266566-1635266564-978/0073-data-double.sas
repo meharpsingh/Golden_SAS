@@ -1,0 +1,10 @@
+  data Double;
+Interest = .0375;
+Total = 300;
+do while (Total lt 200);
+Year + 1;
+Total = Total + Interest*Total;
+output;
+end;
+format Total dollar10.2;
+  run;

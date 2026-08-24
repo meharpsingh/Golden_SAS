@@ -1,0 +1,14 @@
+  data Short;
+input x;
+  datalines;
+  ;
+  data Long;
+input x;
+  datalines;
+  ;
+  data New;
+set Short;
+output;
+set Long;
+output;
+  run;

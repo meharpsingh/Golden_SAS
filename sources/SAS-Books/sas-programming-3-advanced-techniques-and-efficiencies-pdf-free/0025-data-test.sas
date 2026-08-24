@@ -1,0 +1,10 @@
+data test;
+length x 4;
+X=1/10;
+Y=1/10;
+run;
+data _null_;
+set test;
+put X=;
+put Y=;
+run;

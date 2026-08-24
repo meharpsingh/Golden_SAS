@@ -1,0 +1,18 @@
+data sample_size;
+* Mean effects in each arm;
+theta0=0; theta1=7; theta2=14; theta3=21;
+* Linear contrast test coefficients;
+c0=-3; c1=-1; c2=1; c3=3;
+alpha=0.025; * One-sided significance level;
+beta=0.1;
+z_alpha=probit(1-alpha);
+z_beta=probit(1-beta);
+do sigma=20 to 25;
+sum1=theta0*c0+theta1*c1+theta2*c2+theta3*c3;
+sum2=c0*c0+c1*c1+c2*c2+c3*c3;
+n=ceil(sum2*(sigma*(z_alpha+z_beta)/sum1)**2);
+output;
+end;
+proc print data=sample_size noobs;
+var sigma n;
+run;

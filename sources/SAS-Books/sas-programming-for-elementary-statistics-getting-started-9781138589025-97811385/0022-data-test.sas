@@ -1,0 +1,16 @@
+DATA test;
+INPUT Name $ ID Score Grade $;
+DATALINES;
+Bill  123000000  85 B
+Helen  234000000  96 A
+Steven   345000000  80 B
+Carla  456000000  65 C
+Dana  567000000  97 A
+Lisa  789000000  81 B
+;
+PROC SORT DATA=test; BY name;
+PROC PRINT DATA=test NOOBS;
+VAR name grade;
+TITLE 'Objective 2.10';
+RUN;
+QUIT;

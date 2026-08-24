@@ -1,0 +1,11 @@
+data ExamSchedule;
+   do visdt = '01jun2007'd to '10jun2007'd;
+      next_d  = intnx('month',visdt,1);
+      next_b  = intnx('month',visdt,1,'beginning');
+      next_m  = intnx('month',visdt,1,'middle');
+      next_e  = intnx('month',visdt,1,'end');
+      next_s  = intnx('month',visdt,1,'same');
+      output;
+   end;
+   format visdt next: date7.;
+   run;

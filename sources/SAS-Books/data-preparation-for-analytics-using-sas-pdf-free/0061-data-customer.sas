@@ -1,0 +1,13 @@
+DATA CUSTOMER;
+ SET CUSTOMER;
+  SELECT (Employment_Status);
+  WHEN ('Employed')   Employed=1;
+  WHEN ('Unemployed') Unemployed=1;
+  WHEN ('Education')  Education =1;
+  OTHERWISE DO;
+              Employed  =-1;
+              Unemployed=-1;
+              Education =-1;
+            END;
+ END;
+RUN;

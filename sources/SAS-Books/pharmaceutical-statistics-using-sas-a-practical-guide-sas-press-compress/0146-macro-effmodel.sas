@@ -1,0 +1,37 @@
+%let k=1000;
+%let emax=300;
+%let ed50=0.3;
+%let gamma=1.0;
+%let e0=0.0;
+%let alpha=-1.5;
+%let beta=2.0;
+%macro effmodel(dose,emax,ed50,gamma,e0);
+%global effout;
+%let effout=&e0+&emax*&dose**&gamma/(&dose**&gamma+&ed50**&gamma);
+%mend effmodel;
+%macro AEmodel(logdose,alpha,beta);
+%global AEout;
+%let AEout=exp(&alpha+&beta*&logdose)/(1+exp(&alpha+&beta*&logdose));
+%mend AEmodel;
+/* Create data set for plotting */
+data window;
+do logd=log(0.01) to log(10.0) by log(10.0/0.01)/100;
+dose=exp(logd);
+%effmodel(dose=dose,emax=&emax,ed50=&ed50,gamma=&gamma,e0=&e0);
+effect=&effout;
+%AEmodel(logdose=logd,alpha=&alpha,beta=&beta);
+AEprob=&AEout;
+AEloss=&k*AEprob;
+utility=effect-AEloss;
+output;
+end;
+axis1 minor=none label=(angle=90 "Utility") order=(-300 to 300 by 100);
+axis2 minor=none label=("Dose") logbase=10 logstyle=expand;
+symbol1 i=join width=3 line=1 color=black;
+symbol2 i=join width=3 line=20 color=black;
+symbol3 i=join width=3 line=34 color=black;
+proc gplot data=window;
+plot (effect AEloss utility)*dose/haxis=axis2 vaxis=axis1
+overlay frame vref=0 lvref=34;
+run;
+quit;

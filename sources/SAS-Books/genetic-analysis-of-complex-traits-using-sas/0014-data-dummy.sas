@@ -1,0 +1,45 @@
+data dummy;
+ do row = 1 to 90;
+  output;
+   end;
+ data fam1;
+  do sire1 = 1 to 10;
+   do dam1 = 1 to 10;
+    output;
+ end;
+  end;
+data fam1;
+ set fam1;
+  if sire1 = dam1 then delete;
+data fam1;
+ merge dummy fam1;
+ data fam1;
+  set fam1;
+   do sire2 = 1 to 10;
+    do dam2 = 1 to 10;
+ output;
+  end;
+   end;
+data fam1;
+ set fam1;
+  if sire2 = dam2 then delete;
+data dummy;
+set dummy;
+ do col = 1 to 90;
+  output;
+   end;
+data ii;
+ merge fam1 dummy;
+ if row < col then delete;
+  if sire1 = dam1 or sire2 = dam2 or
+(sire1 ^= sire2 and dam1 ^= dam2 and
+sire1 ^= dam2 and dam1 ^= sire2)
+ then delete;
+if sire1 = sire2 and dam1 = dam2 then rel = 'fulls';
+ else if sire1 = dam2 and dam1 = sire2 then rel = 'rfs';
+ else if sire1 = sire2 and dam1 ^= dam2 then rel = 'phs';
+ else if sire1 ^= sire2 and dam1 = dam2 then rel = 'mhs';
+ else rel = 'rhs';
+   do parm = 1 to 5;
+    output;
+ end;

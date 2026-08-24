@@ -1,0 +1,11 @@
+%macro allyr(start=2004,stop=2005);
+   %do year = &start %to &stop;
+      data temp;
+         set yr&year;
+         retain year &year;
+         run;
+      proc datasets lib=work nolist;
+         append base=allyear data=temp;
+         quit;
+    %end;
+%mend allyr;

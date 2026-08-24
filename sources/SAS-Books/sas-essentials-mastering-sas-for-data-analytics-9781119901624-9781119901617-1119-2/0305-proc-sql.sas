@@ -1,0 +1,3 @@
+ PROC SQL;
+        SELECT * from MYSASLIB.SOMEDATA;
+ QUIT;

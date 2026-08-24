@@ -1,0 +1,12 @@
+data im;                               * new data set;
+alpha = 0.5836;                        * intercept;
+b0 = -0.2020;                          * coefficient lag0;
+b1 = -0.1653;                          * coefficient lag1;
+b2 = -0.0700;                          * coefficient lag2;
+im0 = b0;                              * impact multiplier;
+im1 = b0+b1;                           * interim multiplier 1;
+im2 = b0+b1+b2;                        * interim multiplier 2;
+ghat = alpha/-im2;                     * normal growth rate;
+proc print data=im;
+var im0 im1 im2 ghat;                  * variable list;
+run;

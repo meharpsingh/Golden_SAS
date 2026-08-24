@@ -1,0 +1,9 @@
+data ... ;
+...
+dsname = "work.fromHash" ;
+where
+ = "Runs>0" ;
+...
+H.OUTPUT (dataset: cats(dsname, "(where=(", where, "))")) ;
+...
+run ;

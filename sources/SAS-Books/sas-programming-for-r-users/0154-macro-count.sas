@@ -1,0 +1,8 @@
+%macro count(opts,start=01jan08,stop=31dec08); n
+    proc freq data=orion.orders;
+        where order_date between
+            "&start" and "&stop";
+        table order_type / &opts;
+        title1 "Orders from &start to &stop";
+    run;
+%mend count;

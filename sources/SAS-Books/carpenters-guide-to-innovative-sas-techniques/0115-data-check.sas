@@ -1,0 +1,10 @@
+data check;
+   start = '14sep2011'd; * the 14th was a Wednesday;
+   do end = start to intnx('month',start,1,'s');
+      weeks = intck('weeks',start,end);
+      weeksc= intck('weeks',start,end,'c');
+      weeksd= intck('weeks',start,end,'d');
+      output check;
+   end;
+format start end date9.;
+run;

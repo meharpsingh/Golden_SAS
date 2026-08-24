@@ -1,0 +1,9 @@
+/* validation bootstrap for extracted snippets */
+%let _EXTRACTED_BOOTSTRAP=1;
+%let path=%sysfunc(pathname(work));
+%let file=%sysfunc(pathname(work))/snippet.csv;
+
+/* Extracted from github-repos/gerhard1050__Applying-Data-Science-Using-SAS/SAS Enterprise Guide Project (with programs and datasets)/ApplyingDataScience_FullSASContent_V1.egp (egp_code 109) */
+
+﻿
+proc format;

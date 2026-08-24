@@ -1,0 +1,6 @@
+DATA FAMILY;INFILE datalines DLM=  ',';
+INPUT RELATION $ FIRSTNAME $;
+DATALINES;
+son,Adams,
+;
+RUN;

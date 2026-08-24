@@ -1,0 +1,13 @@
+proc iml;
+    call randseed(27606);
+    n = 20;
+    beta0 = 3;
+    beta1 = 2;
+    beta2 = -1;
+    xvals1 = randfun(n,"Uniform");
+    xvals1 = xvals1*20;
+    xvals2 = randfun(n,"Uniform");
+    xvals2 = (xvals2*20) + 10;
+    error = randfun(n,"Normal",0,5);
+    y = beta0 + beta1*xvals1 + beta2*xvals2 + error;
+    print y beta0 beta1 beta2 xvals1 xvals2 error;

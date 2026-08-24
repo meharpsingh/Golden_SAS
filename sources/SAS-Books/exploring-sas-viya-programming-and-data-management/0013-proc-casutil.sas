@@ -1,0 +1,10 @@
+libname mycas cas;
+proc casutil;
+load data=sashelp.cars replace;
+run;
+data mycas.cars2;
+set mycas.cars;
+Average_MPG=mean(MPG_City, MPG_Highway);
+keep Make Model Type Average_MPG MSRP;
+by Type;
+run;

@@ -1,0 +1,11 @@
+data price ;
+set sashelp.pricedata;
+array price_inr{17} price_inr1-price_inr17;
+array price_usd{17} price1-price17;
+do i = 1 to 17;
+price_inr{i} = price_usd{i}*70;
+end;
+run;
+proc print data= price (obs=5);
+var price_inr1-price_inr3 price1-price3;
+run;

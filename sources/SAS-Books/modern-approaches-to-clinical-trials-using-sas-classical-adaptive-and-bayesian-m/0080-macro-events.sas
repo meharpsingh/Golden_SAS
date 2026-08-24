@@ -1,0 +1,15 @@
+%macro events(delta, alpha, beta, pi);
+data result;
+alpha=&alpha;
+power=1-&beta;
+delta=&delta;
+pi=&pi;
+za=quantile('Normal', 1-&alpha);
+zb=quantile('Normal', 1-&beta);
+logd=log(&delta);
+D=4*((za+zb)/logd)**2;
+Ds=D/(pi**2);
+label delta='hazard ratio';
+label pi="treatment effect fraction";
+label Ds='events required';
+run;
