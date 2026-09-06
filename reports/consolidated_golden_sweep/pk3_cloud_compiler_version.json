@@ -1,0 +1,7 @@
+{
+  "sasc_commit": "c65fc26c1d5213473b494dc41ab37f9e73175cd8",
+  "sasc_branch": "main",
+  "sasc_commit_date": "2026-09-05T15:05:57-07:00",
+  "harness_branch": "test/golden-sas-full-sweep",
+  "harness_commit": "2c425c4c3838ef930b8e2852b9d66512991f53cb"
+}

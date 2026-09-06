@@ -1,0 +1,77 @@
+{
+  "scripts_union": 7572,
+  "overlap_sas94_and_prf": 7571,
+  "only_sas94": 0,
+  "only_prf": 1,
+  "agree_counts": {
+    "false": 2895,
+    "true": 4677
+  },
+  "first_divergence": {
+    "pk_python": 2619,
+    "viya": 276
+  },
+  "bucket_counts": {
+    "sas94": {
+      "ok": 5254,
+      "compile_error": 295,
+      "macro_error": 228,
+      "parse_error": 320,
+      "runtime_error": 322,
+      "soft_fail": 1098,
+      "timeout": 49,
+      "harness_error": 5
+    },
+    "pk_python": {
+      "engine_reported_syntax_error": 577,
+      "ok_no_error": 6410,
+      "engine_reported_semantic_error": 184,
+      "harness_timeout": 81,
+      "engine_reported_compile_error": 10,
+      "harness_encoding_error": 309,
+      "harness_process_error": 1
+    },
+    "pk_java": {
+      "not_available": 7572
+    },
+    "pk_c": {
+      "not_available": 7572
+    },
+    "viya": {
+      "ok_result_only": 6420,
+      "engine_reported_data_error": 815,
+      "engine_error_rate_limited": 9,
+      "harness_process_error": 21,
+      "harness_encoding_error": 307
+    }
+  },
+  "pk3_cloud_aggregates": {
+    "pk_python": {
+      "encoding_error": 309,
+      "not_implemented": 2121,
+      "parse_error": 561,
+      "ok": 4074,
+      "soft_fail": 216,
+      "timeout": 79,
+      "lex_error": 146,
+      "runtime_error": 51,
+      "macro_error": 5,
+      "compile_error": 10
+    },
+    "pk_java": {
+      "ok": 7132,
+      "lex_error": 251,
+      "runtime_error": 189
+    },
+    "pk_c": {
+      "ok": 7179,
+      "lex_error": 259,
+      "runtime_error": 115,
+      "timeout": 19
+    }
+  },
+  "artifacts": {
+    "consolidated_results.csv": "reports\\consolidated_golden_sweep\\consolidated_results.csv",
+    "CONSOLIDATED_REPORT.md": "reports\\consolidated_golden_sweep\\CONSOLIDATED_REPORT.md"
+  }
+}
