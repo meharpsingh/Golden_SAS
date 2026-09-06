@@ -1,5 +1,9 @@
 # Cloud agent brief: land PolyKode x3 per-script cells
 
+**Open this agent on `meharpsingh/polykode-sasc` (not Golden_SAS).**
+A prior cloud attempt on Golden_SAS failed: no sasc compilers and
+polykode-sasc was not in that environment.
+
 Goal: produce a commit-able `pk3_cells.jsonl` (one line per script x engine)
 so Golden_SAS can re-join true per-row `pk_java` / `pk_c` / `pk_python` statuses.
 Do **not** commit full logs or per-cell directories (too large).
@@ -27,19 +31,32 @@ Expected lines: ~22,716 (7572 scripts x 3). Dedup by `(script_rel_path, engine)`
 
 ## How
 
-1. Checkout `main` (or branch from `cursor/pr-e-golden-sas-full-sweep-a785` harness).
-2. Ensure `sasc`, `sasc-c`, and `sasc-j` run (same as prior cloud install).
-3. Set `POLYKODE_GOLDEN_SAS_ROOT` to the Golden_SAS corpus clone.
-4. Re-run PolyKode-only sweep (skip sas94/viya) with resume if a prior
+1. Confirm `git remote -v` shows `meharpsingh/polykode-sasc`. If not, stop.
+2. Checkout `main` (harness reference: `cursor/pr-e-golden-sas-full-sweep-a785`).
+3. Run `.cursor/install.sh` so `sasc`, `sasc-c`, and `sasc-j` work.
+4. Clone Golden_SAS; set `POLYKODE_GOLDEN_SAS_ROOT` to that clone.
+5. Re-run PolyKode-only sweep (skip sas94/viya); resume if
    `/workspace/golden_sweep` still exists on this VM.
-5. Emit `pk3_cells.jsonl` by scanning result cells / checkpoint — strip
+6. Emit `pk3_cells.jsonl` by scanning result cells / checkpoint — strip
    stdout/stderr/log bodies; keep status + error class/message + elapsed_ms.
-6. Commit + push the jsonl on a branch `chore/pk3-cells-jsonl` and open a PR
-   into `meharpsingh/polykode-sasc` `main`.
-7. Also copy/upload the same file into
-   `meharpsingh/Golden_SAS` at
-   `reports/consolidated_golden_sweep/pk3_cells.jsonl` (or leave a note
-   so the Windows agent can `git show` it).
+7. Branch `chore/pk3-cells-jsonl`, commit ONLY the jsonl, push, open PR to main.
+8. Optional: also place the file on Golden_SAS at
+   `reports/consolidated_golden_sweep/pk3_cells.jsonl`.
+
+## After the PR lands (Windows agent)
+
+```powershell
+cd C:\Users\Admin\Projects\Golden_SAS
+git -C ..\polykode-sasc-integrate fetch origin
+# adjust branch/ref once PR merges
+git -C ..\polykode-sasc-integrate show origin/chore/pk3-cells-jsonl:unix/tests/golden_sweep/artifacts/pk3_cells.jsonl > reports/consolidated_golden_sweep/pk3_cells.jsonl
+python scripts/consolidate_engine_reports.py `
+  --sas94-csv "_sas_runs/golden_sweep/report/results.csv" `
+  --prf-csv "_sas_runs/consolidate_src/prf_results.csv" `
+  --pk3-summary "_sas_runs/consolidate_src/pk3_summary.json" `
+  --pk3-cells "reports/consolidated_golden_sweep/pk3_cells.jsonl" `
+  --out-dir "reports/consolidated_golden_sweep"
+```
 
 ## Non-goals
 
