@@ -52,6 +52,26 @@ def _index_by(rows: list[dict[str, str]], key: str) -> dict[str, dict[str, str]]
     return out
 
 
+def _load_pk3_cells(path: Path | None) -> dict[tuple[str, str], dict]:
+    """Map (script_rel_path, engine) -> cell dict. Last line wins."""
+    out: dict[tuple[str, str], dict] = {}
+    if path is None or not path.is_file():
+        return out
+    with path.open(encoding="utf-8-sig") as fh:
+        for line in fh:
+            line = line.strip()
+            if not line:
+                continue
+            obj = json.loads(line)
+            if not isinstance(obj, dict):
+                continue
+            rel = str(obj.get("script_rel_path") or "").replace("\\", "/")
+            eng = str(obj.get("engine") or "")
+            if rel and eng:
+                out[(rel, eng)] = obj
+    return out
+
+
 def consolidate(
     *,
     sas94_csv: Path,
@@ -59,15 +79,17 @@ def consolidate(
     pk3_summary: Path,
     out_dir: Path,
     sources: dict,
+    pk3_cells: Path | None = None,
 ) -> dict:
     out_dir.mkdir(parents=True, exist_ok=True)
     sas_rows = _load_csv(sas94_csv)
     prf_rows = _load_csv(prf_csv)
     pk3 = json.loads(pk3_summary.read_text(encoding="utf-8-sig"))
+    cells = _load_pk3_cells(pk3_cells)
 
     by_sas = _index_by(sas_rows, "script")
     by_prf = _index_by(prf_rows, "script_rel_path")
-    all_scripts = sorted(set(by_sas) | set(by_prf))
+    all_scripts = sorted(set(by_sas) | set(by_prf) | {k[0] for k in cells})
 
     engines = ["sas94", "pk_python", "pk_java", "pk_c", "viya"]
     fieldnames = [
@@ -157,6 +179,21 @@ def consolidate(
             "viya_error_message": p.get("viya_error_message") or "",
             "reference_engine": "sas94",
         }
+
+        # Override PolyKode backends from pk3_cells.jsonl when present.
+        for eng, src_label in (
+            ("pk_python", "pk3_cells.jsonl"),
+            ("pk_java", "pk3_cells.jsonl"),
+            ("pk_c", "pk3_cells.jsonl"),
+        ):
+            cell = cells.get((script, eng))
+            if not cell:
+                continue
+            row[f"{eng}_status"] = str(cell.get("status") or "")
+            row[f"{eng}_elapsed_ms"] = str(cell.get("elapsed_ms") or "")
+            row[f"{eng}_error_class"] = str(cell.get("error_class") or "")
+            row[f"{eng}_error_message"] = str(cell.get("error_message") or "")
+            row[f"{eng}_cell_source"] = src_label
 
         statuses = {
             "sas94": row["sas94_status"],
@@ -314,6 +351,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--sas94-csv", required=True)
     ap.add_argument("--prf-csv", required=True)
     ap.add_argument("--pk3-summary", required=True)
+    ap.add_argument(
+        "--pk3-cells",
+        default="",
+        help="Optional pk3_cells.jsonl with per-script pk_python/pk_java/pk_c rows",
+    )
     ap.add_argument("--out-dir", required=True)
     args = ap.parse_args(argv)
 
@@ -328,12 +370,16 @@ def main(argv: list[str] | None = None) -> int:
             f"unix/tests/golden_sweep/artifacts/summary.json -> {args.pk3_summary}"
         ),
     }
+    pk3_cells = Path(args.pk3_cells) if args.pk3_cells else None
+    if pk3_cells and pk3_cells.is_file():
+        sources["pk3_per_script_cells"] = str(pk3_cells)
     summary = consolidate(
         sas94_csv=Path(args.sas94_csv),
         prf_csv=Path(args.prf_csv),
         pk3_summary=Path(args.pk3_summary),
         out_dir=Path(args.out_dir),
         sources=sources,
+        pk3_cells=pk3_cells,
     )
     print(json.dumps(summary, indent=2))
     return 0
