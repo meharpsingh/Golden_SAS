@@ -205,11 +205,15 @@ def main(argv: list[str] | None = None) -> int:
                     outfh.flush()
                     completed += 1
                     if completed % 100 == 0 or completed == len(jobs):
-                        print(
+                        msg = (
                             f"heartbeat {completed}/{len(jobs)} "
-                            f"last={cell['script_rel_path']} {cell['engine']}={cell['status']}",
-                            flush=True,
+                            f"last={cell['script_rel_path']} "
+                            f"{cell['engine']}={cell['status']}"
                         )
+                        try:
+                            print(msg, flush=True)
+                        except UnicodeEncodeError:
+                            print(msg.encode("ascii", "replace").decode("ascii"), flush=True)
 
     print(f"pk3 local export complete: wrote {completed} new cells -> {out_jsonl}", flush=True)
     return 0

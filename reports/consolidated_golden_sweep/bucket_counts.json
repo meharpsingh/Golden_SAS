@@ -4,12 +4,14 @@
   "only_sas94": 0,
   "only_prf": 1,
   "agree_counts": {
-    "false": 2895,
-    "true": 4677
+    "false": 7364,
+    "true": 208
   },
   "first_divergence": {
-    "pk_python": 2619,
-    "viya": 276
+    "pk_python": 5198,
+    "pk_java": 2021,
+    "pk_c": 14,
+    "viya": 131
   },
   "bucket_counts": {
     "sas94": {
@@ -23,19 +25,27 @@
       "harness_error": 5
     },
     "pk_python": {
-      "engine_reported_syntax_error": 577,
-      "ok_no_error": 6410,
-      "engine_reported_semantic_error": 184,
-      "harness_timeout": 81,
-      "engine_reported_compile_error": 10,
-      "harness_encoding_error": 309,
-      "harness_process_error": 1
+      "parse_error": 2367,
+      "runtime_error": 4811,
+      "ok": 296,
+      "not_implemented": 3,
+      "soft_fail": 13,
+      "encoding_error": 79,
+      "ok_no_error": 1,
+      "timeout": 2
     },
     "pk_java": {
-      "not_available": 7572
+      "ok": 7119,
+      "runtime_error": 441,
+      "soft_fail": 11,
+      "not_available": 1
     },
     "pk_c": {
-      "not_available": 7572
+      "ok": 7014,
+      "runtime_error": 531,
+      "soft_fail": 8,
+      "timeout": 18,
+      "not_available": 1
     },
     "viya": {
       "ok_result_only": 6420,

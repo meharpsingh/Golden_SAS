@@ -1,6 +1,6 @@
 # Consolidated Golden_SAS compiler report
 
-- generated_utc: `2026-09-06T19:52:22.963576+00:00`
+- generated_utc: `2026-09-06T20:55:52.164059+00:00`
 - scripts_union: **7572**
 - reference_engine: `sas94`
 - engines: `sas94`, `pk_python`, `pk_java`, `pk_c`, `viya`
@@ -10,6 +10,7 @@
 - **sas94**: local file _sas_runs/golden_sweep/report/results.csv (RunAsDate 2013-08-30 Windows SAS 9.4)
 - **pk_python_viya_java_c_cells**: polykode-sasc origin/main unix/tests/golden_sweep/report/results.csv exported to _sas_runs/consolidate_src/prf_results.csv
 - **pk_java_pk_c_cloud_aggregates**: polykode-sasc origin/cursor/pr-e-golden-sas-full-sweep-a785 unix/tests/golden_sweep/artifacts/summary.json -> _sas_runs/consolidate_src/pk3_summary.json
+- **pk3_per_script_cells**: reports\consolidated_golden_sweep\pk3_cells.jsonl
 
 ## Coverage note (pk_java / pk_c per-script)
 
@@ -35,21 +36,29 @@ remain `not_available` at row level.
 
 ### `pk_python`
 
-- `ok_no_error`: 6410
-- `engine_reported_syntax_error`: 577
-- `harness_encoding_error`: 309
-- `engine_reported_semantic_error`: 184
-- `harness_timeout`: 81
-- `engine_reported_compile_error`: 10
-- `harness_process_error`: 1
+- `runtime_error`: 4811
+- `parse_error`: 2367
+- `ok`: 296
+- `encoding_error`: 79
+- `soft_fail`: 13
+- `not_implemented`: 3
+- `timeout`: 2
+- `ok_no_error`: 1
 
 ### `pk_java`
 
-- `not_available`: 7572
+- `ok`: 7119
+- `runtime_error`: 441
+- `soft_fail`: 11
+- `not_available`: 1
 
 ### `pk_c`
 
-- `not_available`: 7572
+- `ok`: 7014
+- `runtime_error`: 531
+- `timeout`: 18
+- `soft_fail`: 8
+- `not_available`: 1
 
 ### `viya`
 
@@ -93,13 +102,15 @@ remain `not_available` at row level.
 
 ## Agreement vs sas94 (coarse: success / fail / absent)
 
-- all_available_engines_agree=true: 4677
-- all_available_engines_agree=false: 2895
+- all_available_engines_agree=true: 208
+- all_available_engines_agree=false: 7364
 
 ### first_divergence
 
-- `pk_python`: 2619
-- `viya`: 276
+- `pk_python`: 5198
+- `pk_java`: 2021
+- `viya`: 131
+- `pk_c`: 14
 
 ## Artifacts
 

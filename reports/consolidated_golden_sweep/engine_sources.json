@@ -1,5 +1,6 @@
 {
   "sas94": "local file _sas_runs/golden_sweep/report/results.csv (RunAsDate 2013-08-30 Windows SAS 9.4)",
   "pk_python_viya_java_c_cells": "polykode-sasc origin/main unix/tests/golden_sweep/report/results.csv exported to _sas_runs/consolidate_src/prf_results.csv",
-  "pk_java_pk_c_cloud_aggregates": "polykode-sasc origin/cursor/pr-e-golden-sas-full-sweep-a785 unix/tests/golden_sweep/artifacts/summary.json -> _sas_runs/consolidate_src/pk3_summary.json"
+  "pk_java_pk_c_cloud_aggregates": "polykode-sasc origin/cursor/pr-e-golden-sas-full-sweep-a785 unix/tests/golden_sweep/artifacts/summary.json -> _sas_runs/consolidate_src/pk3_summary.json",
+  "pk3_per_script_cells": "reports\\consolidated_golden_sweep\\pk3_cells.jsonl"
 }

@@ -107,6 +107,7 @@ def consolidate(
         "pk_python_elapsed_ms",
         "pk_python_error_class",
         "pk_python_error_message",
+        "pk_python_cell_source",
         "pk_java_status",
         "pk_java_elapsed_ms",
         "pk_java_error_class",
